@@ -1,0 +1,695 @@
+[
+ {
+  "key": "0_title",
+  "text": "序幕，時空帳本開啟。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "0_l0",
+  "text": "星期五晚上，國二的阿晃哥和同學 偷頭 一起複習社會，課本上的九宮格越看越想睡……",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "0_l1",
+  "text": "阿晃哥，宋、遼、金、西夏……這麼多國家，到底誰打誰啊？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+8%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "0_l2",
+  "text": "我也搞不清楚……呼……嗯……",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-2%",
+  "pitch": "+6Hz"
+ },
+ {
+  "key": "0_l3",
+  "text": "叮！叫我銀兩君！我是宋朝送給遼國的歲幣，在歷史裡跑過好幾個國家喔！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "0_l4",
+  "text": "會、會說話的銀子？！阿晃哥，快醒醒！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+16%",
+  "pitch": "+29Hz"
+ },
+ {
+  "key": "0_l5",
+  "text": "欸？我們是在做夢嗎？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "+9Hz"
+ },
+ {
+  "key": "0_l6",
+  "text": "西元10到12世紀，不是只有一個王朝，而是多民族、多國家同時存在的時代。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "0_l7",
+  "text": "有競爭、有合作，也有打不完的仗。兩位，打開我的時空帳本出發吧！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "0_card",
+  "text": "歷史小卡，時代定位。時間：西元10～12世紀。唐末藩鎮 → 五代十國 → 宋。宋同時面對強大鄰國：多民族多國家的時代。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "1_title",
+  "text": "第一站，五代與遼的建立。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "1_l0",
+  "text": "唐朝末年藩鎮割據，接著中原陷入分裂的五代十國。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "1_l1",
+  "text": "畫重點：五代十國，就是唐末藩鎮割據的延續！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "1_l2",
+  "text": "等一下，藩鎮是什麼啊？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "1_l3",
+  "text": "就是唐朝後期手握兵權的地方節度使，各自擁兵，不聽中央的話。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "+6Hz"
+ },
+ {
+  "key": "1_l4",
+  "text": "我是契丹族的耶律阿保機！我統一了各部落，建立國家。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-2%",
+  "pitch": "-10Hz"
+ },
+ {
+  "key": "1_l5",
+  "text": "後來，他的兒子耶律德光趁中原五代混亂，取得了煙雲十六州。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "1_l6",
+  "text": "煙雲十六州在長城一帶，是擋住北方騎兵的軍事要地。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "1_l7",
+  "text": "從此國號定為遼！女真、西夏、高麗，都要向我們稱臣！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "-4Hz"
+ },
+ {
+  "key": "1_l8",
+  "text": "阿晃哥考你：煙雲十六州為什麼這麼重要？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "1_l9",
+  "text": "簡單！它是長城一帶的屏障，丟了它，北方騎兵就能直衝中原平原！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+6%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "1_card",
+  "text": "歷史小卡，五代與遼的建立。五代十國是唐末藩鎮割據的延續。契丹族耶律阿保機建國，耶律德光時取得煙雲十六州（軍事要地）。國號遼，女真、西夏、高麗等向遼稱臣。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "1_quiz",
+  "text": "隨堂小測驗！為什麼煙雲十六州對中原王朝這麼重要？　A，那裡盛產絲綢和茶葉。B，它是軍事要地，可以阻擋北方騎兵。C，它是遼國的首都。D，那裡有很多海港。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+0%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "1_reveal",
+  "text": "答案是B！煙雲十六州位在長城一帶，是中原北方的天然屏障。被遼取得後，中原北邊幾乎無險可守。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "2_title",
+  "text": "第二站，北宋的建立與特質。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "2_l0",
+  "text": "西元960年，後周大將趙匡胤帶兵出征，走到了陳橋驛……",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "2_l1",
+  "text": "將軍！大家要擁立您當皇帝！黃袍給您披上，這就是陳橋兵變！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+4Hz"
+ },
+ {
+  "key": "2_l2",
+  "text": "好吧……那就由我當皇帝，國號宋，我就是宋太祖！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-2%",
+  "pitch": "-6Hz"
+ },
+ {
+  "key": "2_l3",
+  "text": "黃袍加身？原來皇帝也可以這樣被大家推上去喔！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+16%",
+  "pitch": "+29Hz"
+ },
+ {
+  "key": "2_l4",
+  "text": "宋朝的首都，定在汴京，也就是今天的河南開封。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "2_l5",
+  "text": "各位將軍，乾了這杯……把兵權交出來，回家享福吧！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-2%",
+  "pitch": "-6Hz"
+ },
+ {
+  "key": "2_l6",
+  "text": "這就是杯酒釋兵權！宋太祖怕唐末藩鎮的悲劇重演，把兵權收回中央。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "2_l7",
+  "text": "宋朝重用讀書人，形成文人政治、中央強、地方弱。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "2_l8",
+  "text": "政治穩定是很好啦，可是這樣打仗不會吃虧嗎？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "2_l9",
+  "text": "會！重文輕武，國防軍力比較弱，這就是宋朝後來一直被欺負的伏筆！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+6%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "2_card",
+  "text": "歷史小卡，北宋的特質。建國者：宋太祖趙匡胤。陳橋兵變（黃袍加身）、杯酒釋兵權。首都：汴京（河南開封）。特質：文人政治、中央強地方弱。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "2_quiz",
+  "text": "隨堂小測驗！宋太祖杯酒釋兵權的主要目的是什麼？　A，請將軍們吃飯慶功。B，避免武將擁兵自重，加強中央集權。C，籌措對遼作戰的軍費。D，和遼國結為同盟。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+0%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "2_reveal",
+  "text": "答案是B！宋太祖記取唐末藩鎮割據的教訓，收回武將兵權，形成中央強、地方弱。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "3_title",
+  "text": "第三站，宋的鄰國。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "3_l0",
+  "text": "來看地圖！北邊是契丹族的遼，國土非常遼闊。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "3_l1",
+  "text": "西北是黨項族建立的西夏。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "3_l2",
+  "text": "東北還有高麗。宋朝被一群強鄰包圍！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "3_l3",
+  "text": "被這麼多國家包圍，換我也會緊張……",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+8%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "3_l4",
+  "text": "而且你看，煙雲十六州在遼國手上，宋朝北邊幾乎沒有屏障！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+6%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "3_l5",
+  "text": "首都汴京離邊境這麼近，宋遼之間的大戰，一觸即發！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "3_card",
+  "text": "歷史小卡，宋的鄰國。北方：遼（契丹族）。西北：西夏（黨項族）。東北：高麗；後來又崛起女真族的金。煙雲十六州在遼手中，宋的北方缺少屏障。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "4_title",
+  "text": "第四站，澶淵之盟。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "4_l0",
+  "text": "宋真宗在位時，遼國大軍大舉南侵，一路打到黃河邊的澶州！",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+2Hz"
+ },
+ {
+  "key": "4_l1",
+  "text": "好、好可怕……要不要乾脆遷都逃走啊？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+0%",
+  "pitch": "+7Hz"
+ },
+ {
+  "key": "4_l2",
+  "text": "陛下萬萬不可！請您御駕親征，鼓舞士氣！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "4_l3",
+  "text": "宰相寇準力主真宗親征，宋軍士氣大振。最後雙方談和，訂下澶淵之盟。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "4_l4",
+  "text": "盟約第一條：宋遼平等，約為兄弟之邦。第二條：煙雲十六州沒有拿回來。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "4_l5",
+  "text": "第三條：宋每年給遼歲幣，銀和絹。我就是這樣被送到遼國的！",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "4_l6",
+  "text": "每年都要送錢？宋朝也太虧了吧！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+16%",
+  "pitch": "+29Hz"
+ },
+ {
+  "key": "4_l7",
+  "text": "來算帳：歲幣只占宋朝收入的一小部分，比打仗的軍費便宜太多；邊境開放貿易，宋朝還能賺回來。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "4_l8",
+  "text": "我懂了！花小錢買和平，比打仗划算多了。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+6%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "4_l9",
+  "text": "沒錯，換來兩國一百多年的和平！只是煙雲沒拿回，國防仍然受到威脅。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "4_card",
+  "text": "歷史小卡，澶淵之盟。宋真宗時遼大舉南侵，宰相寇準力主親征。宋遼平等，約為兄弟之邦。宋每年給遼歲幣：銀、絹。未取回煙雲十六州，國防仍受威脅。維持兩國一百多年的和平。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "4_quiz",
+  "text": "隨堂小測驗！下列哪一項不是澶淵之盟的內容或結果？　A，宋遼約為兄弟之邦。B，宋每年給遼歲幣。C，宋取回煙雲十六州。D，兩國維持一百多年和平。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+0%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "4_reveal",
+  "text": "答案是C！澶淵之盟並沒有讓宋取回煙雲十六州，所以宋的北方國防一直受到威脅。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "5_title",
+  "text": "第五站，聯金滅遼。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "5_l0",
+  "text": "一百多年後，東北的白山黑水間，女真族崛起了。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "5_l1",
+  "text": "我是女真族的完顏阿骨打！遼國欺壓我們太久了，今天建國，國號金！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-4%",
+  "pitch": "-14Hz"
+ },
+ {
+  "key": "5_l2",
+  "text": "金國一路進攻遼國。這時候，宋朝的皇帝是宋徽宗。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "5_l3",
+  "text": "朕的書法、畫畫都是一流！聽說金很強？那就和金結盟，一起夾擊遼國，拿回煙雲十六州！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+4%",
+  "pitch": "+9Hz"
+ },
+ {
+  "key": "5_l4",
+  "text": "皇上，您畫畫是很厲害啦，可是打仗呢……？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+8%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "5_l5",
+  "text": "約定是：滅遼之後宋取回煙雲，原本給遼的歲幣改給金。唉，我要換老闆了……",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+2%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "5_l6",
+  "text": "結果金軍勢如破竹，宋軍卻打得很狼狽。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "5_l7",
+  "text": "原來宋朝這麼弱啊……嘿嘿，中原好像也不難拿嘛！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-4%",
+  "pitch": "-14Hz"
+ },
+ {
+  "key": "5_l8",
+  "text": "換我考你，偷頭：聯金滅遼最後帶來什麼結果？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "+9Hz"
+ },
+ {
+  "key": "5_l9",
+  "text": "遼是滅了，可是合作過程暴露了宋國力文弱，金就起了南侵之心！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+16%",
+  "pitch": "+26Hz"
+ },
+ {
+  "key": "5_l10",
+  "text": "答對！宋朝等於引狼入室，大危機就要來了。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "5_card",
+  "text": "歷史小卡，聯金滅遼。北宋中期，東北女真族建國，國號金，進攻遼。宋徽宗與金結盟：取回煙雲十六州，歲幣改給金。遼滅亡，但宋暴露國力文弱，引發金南侵之心。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "5_quiz",
+  "text": "隨堂小測驗！宋徽宗聯金滅遼，最後帶來什麼影響？　A，宋從此國力強盛。B，暴露宋軍事弱點，引發金南侵之心。C，金國向宋稱臣。D，西夏因此滅亡。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+0%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "5_reveal",
+  "text": "答案是B！聯金滅遼的過程中，宋軍表現不佳，讓金看清宋的弱點，不久就南下攻宋。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "6_title",
+  "text": "第六站，靖康之禍。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "6_l0",
+  "text": "宋欽宗靖康二年，金軍攻破首都汴京！",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+2Hz"
+ },
+ {
+  "key": "6_l1",
+  "text": "父皇！我們被金兵抓走了……嗚嗚……",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+0%",
+  "pitch": "+12Hz"
+ },
+ {
+  "key": "6_l2",
+  "text": "徽宗、欽宗兩位皇帝被擄往北方，北宋滅亡，史稱靖康之禍。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-6%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "6_l3",
+  "text": "兩個皇帝都被抓走？這也太慘了吧……",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+8%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "6_l4",
+  "text": "宋室南遷，朕是宋高宗，後來定都臨安，也就是今天的杭州。這就是南宋。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-4%",
+  "pitch": "-4Hz"
+ },
+ {
+  "key": "6_l5",
+  "text": "我是岳飛！一定要打回北方、收復失土！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+8%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "6_l6",
+  "text": "岳飛帶領岳家軍屢次打敗金兵，但朝廷卻一心想和金議和……",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "-2Hz"
+ },
+ {
+  "key": "6_l7",
+  "text": "最後，岳飛被以莫須有的罪名殺害。宋與金議和，形成南北對峙的局面。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+18Hz"
+ },
+ {
+  "key": "6_l8",
+  "text": "莫須有，意思是也許有吧？就這樣定罪，太冤枉了！",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+16%",
+  "pitch": "+29Hz"
+ },
+ {
+  "key": "6_l9",
+  "text": "對啊……從此南宋和金一南一北，形成對峙。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "-2%",
+  "pitch": "+6Hz"
+ },
+ {
+  "key": "6_card",
+  "text": "歷史小卡，靖康之禍。宋欽宗靖康二年：金攻破汴京，徽、欽二帝被擄，北宋滅亡。南宋建立：宋室南遷，高宗定都臨安（杭州）。岳飛以莫須有罪名被殺，宋金議和，形成南北對峙。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "6_quiz",
+  "text": "隨堂小測驗！造成北宋滅亡的事件是哪一個？　A，陳橋兵變。B，澶淵之盟。C，靖康之禍。D，杯酒釋兵權。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+0%",
+  "pitch": "+10Hz"
+ },
+ {
+  "key": "6_reveal",
+  "text": "答案是C！靖康二年金攻破汴京，徽宗、欽宗被擄，北宋滅亡，史稱靖康之禍。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "7_title",
+  "text": "尾聲，帳本闔上之前。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-10%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "7_l0",
+  "text": "帳本翻完囉！宋朝經濟實力很強，卻一直受到鄰國武力的威脅。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "7_l1",
+  "text": "留個問題給你們：為什麼主張抗金的岳飛，反而不受朝廷支持？",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+6%",
+  "pitch": "+21Hz"
+ },
+ {
+  "key": "7_l2",
+  "text": "阿晃哥，你覺得呢？",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+25Hz"
+ },
+ {
+  "key": "7_l3",
+  "text": "也許朝廷怕武將太強？就像宋太祖杯酒釋兵權那樣，一直防著武將。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+2%",
+  "pitch": "+9Hz"
+ },
+ {
+  "key": "7_l4",
+  "text": "我覺得是朝廷只想偏安江南、和金議和，不想再打仗了。",
+  "voice": "zh-TW-YunJheNeural",
+  "rate": "+12%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "7_l5",
+  "text": "兩個想法都很有道理！推薦你們讀讀岳飛的滿江紅，感受他面對局勢的不甘心。",
+  "voice": "zh-TW-HsiaoYuNeural",
+  "rate": "+10%",
+  "pitch": "+22Hz"
+ },
+ {
+  "key": "7_l6",
+  "text": "鬧鐘響了。阿晃哥和 偷頭 醒來，發現課本上那張九宮格……好像全都記住了！",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+2Hz"
+ },
+ {
+  "key": "7_card",
+  "text": "歷史小卡，想一想。宋經濟實力強，卻受鄰國武力威脅。為何主張抗金的岳飛不受朝廷支持？。延伸閱讀：岳飛滿江紅。",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ },
+ {
+  "key": "recap",
+  "text": "最後，用九宮格來總複習吧！從北宋建立、澶淵之盟，到靖康之禍，你都記住了嗎？",
+  "voice": "zh-TW-HsiaoChenNeural",
+  "rate": "-2%",
+  "pitch": "+0Hz"
+ }
+]
