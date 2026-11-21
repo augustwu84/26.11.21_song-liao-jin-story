@@ -3,7 +3,7 @@
 國中歷史（第三冊）〈多民族多國家的宋遼金〉的互動動畫故事。主角是國二學生阿晃哥和同學 TOTO（唸作「偷頭」），跟著一錠會說話的歲幣「銀兩君」穿越回西元 10～12 世紀，從劇情中學到課綱重點。
 
 ▶ **線上觀看（互動版）**：https://augustwu84.github.io/26.11.21_song-liao-jin-story/
-▶ **YouTube 影片版**：https://youtu.be/DHYBw7csdv8
+▶ **YouTube 影片版（配音）**：https://youtu.be/cI8C3Ng92FA
 
 ## 內容章節
 
