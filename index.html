@@ -144,7 +144,8 @@
 <script>
 /* ================= 角色 ================= */
 const C = {
-  xiaoan:{name:'林小安',skin:'#ffd9b8',robe:'#3d6fb6',hat:'student'},
+  xiaoan:{name:'阿晃哥',skin:'#ffd9b8',robe:'#3d6fb6',hat:'student'},
+  toto:{name:'TOTO',skin:'#f6cfa6',robe:'#e07b2a',hat:'spiky',glasses:true},
   yin:{name:'銀兩君',yin:true},
   abaoji:{name:'耶律阿保機',skin:'#f2c49b',robe:'#8a5a2b',hat:'khitan',beard:true},
   deguang:{name:'耶律德光',skin:'#f2c49b',robe:'#6d4c8a',hat:'khitan'},
@@ -178,6 +179,7 @@ function charSVG(id){
   const s=c.skin,r=c.robe;
   let back='',front='',prop='';
   switch(c.hat){
+    case 'spiky': front=`<path d="M44 110 L40 70 L58 82 L60 44 L80 66 L94 30 L106 62 L124 34 L130 68 L150 50 L146 84 L162 76 L156 110 Q150 82 124 80 Q100 90 74 82 Q52 86 44 110Z" fill="#5a3a22"/>`;break;
     case 'student': front=`<path d="M45 108 Q44 50 100 48 Q158 50 155 108 Q150 80 128 76 Q110 92 70 84 Q52 90 45 108Z" fill="#2b2420"/>`;break;
     case 'wing': front=`<rect x="-38" y="66" width="276" height="8" rx="4" fill="#1d1d1d"/><path d="M58 80 Q58 30 100 30 Q142 30 142 80Z" fill="#1d1d1d"/><rect x="56" y="72" width="88" height="14" rx="6" fill="#1d1d1d"/>`;break;
     case 'crown': front=`<path d="M52 90 Q50 52 100 50 Q150 52 148 90Z" fill="#1d1d1d"/><rect x="48" y="80" width="104" height="12" rx="5" fill="${'#d9a521'}"/><path d="M70 50 L80 18 L100 40 L120 18 L130 50Z" fill="#d9a521" stroke="#8a6410" stroke-width="3"/><circle cx="100" cy="32" r="6" fill="#c0392b"/>`;break;
@@ -208,6 +210,7 @@ function charSVG(id){
     <g class="eyes"><ellipse cx="80" cy="116" rx="6.5" ry="8.5" fill="#222"/><ellipse cx="120" cy="116" rx="6.5" ry="8.5" fill="#222"/><circle cx="82" cy="113" r="2.4" fill="#fff"/><circle cx="122" cy="113" r="2.4" fill="#fff"/></g>
     <circle cx="66" cy="132" r="8" fill="#ff9f9f" opacity=".55"/><circle cx="134" cy="132" r="8" fill="#ff9f9f" opacity=".55"/>
     ${tear}
+    ${c.glasses?'<g fill="none" stroke="#2a1f17" stroke-width="4"><circle cx="80" cy="116" r="15"/><circle cx="120" cy="116" r="15"/><path d="M95 116 L105 116"/></g>':''}
     <path class="mouth-idle" d="${c.sad?'M90 142 Q100 134 110 142':'M90 136 Q100 146 110 136'}" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>
     <ellipse class="mouth-talk" cx="100" cy="140" rx="8" ry="7" fill="#7a2230" style="transform-origin:100px 140px"/>
     ${beard}
@@ -327,41 +330,48 @@ const BG={
 /* ================= 劇本 ================= */
 const S=[
 { ch:'前言', stop:'序幕', title:'時空帳本開啟', yr:'西元 10～12 世紀', bg:'room',
-  cast:[['xiaoan',2]],
+  cast:[['xiaoan',1],['toto',3]],
   lines:[
-   {w:'',t:'星期五晚上，國二的林小安盯著社會課本上的「九宮格」，眼皮越來越重……'},
-   {w:'xiaoan',t:'宋、遼、金、西夏……這麼多國家，到底誰打誰啊？呼……zzz'},
-   {w:'yin',t:'叮！叫我<em>銀兩君</em>！我是宋朝送給遼國的「歲幣」，在歷史裡跑過好幾個國家喔！',cast:[['xiaoan',1],['yin',3]]},
-   {w:'xiaoan',t:'會、會說話的銀子？！我一定是在做夢……'},
+   {w:'',t:'星期五晚上，國二的阿晃哥和同學 TOTO 一起複習社會，課本上的「九宮格」越看越想睡……'},
+   {w:'toto',t:'阿晃哥，宋、遼、金、西夏……這麼多國家，到底誰打誰啊？'},
+   {w:'xiaoan',t:'我也搞不清楚……呼……zzz'},
+   {w:'yin',t:'叮！叫我<em>銀兩君</em>！我是宋朝送給遼國的「歲幣」，在歷史裡跑過好幾個國家喔！',cast:[['xiaoan',0],['toto',1],['yin',3]]},
+   {w:'toto',t:'會、會說話的銀子？！阿晃哥，快醒醒！'},
+   {w:'xiaoan',t:'欸？我們是在做夢嗎？'},
    {w:'yin',t:'西元10到12世紀，不是只有一個王朝，而是<em>多民族、多國家</em>同時存在的時代。'},
-   {w:'yin',t:'有競爭、有合作，也有打不完的仗。走吧，打開我的時空帳本！'},
+   {w:'yin',t:'有競爭、有合作，也有打不完的仗。兩位，打開我的時空帳本出發吧！'},
   ],
   card:{t:'時代定位',items:['時間：西元<b>10～12世紀</b>','唐末藩鎮 → 五代十國 → 宋','宋同時面對強大鄰國：<b>多民族多國家</b>的時代']},
   quiz:null },
 { ch:'五代與遼', stop:'第一站', title:'五代與遼的建立', yr:'北方大草原・10 世紀', bg:'steppe',
-  cast:[['yin',1],['xiaoan',0]],
+  cast:[['xiaoan',0],['toto',1],['yin',2]],
   lines:[
    {w:'',t:'唐朝末年藩鎮割據，接著中原陷入分裂的「五代十國」。'},
    {w:'yin',t:'畫重點：<em>五代十國，就是唐末藩鎮割據的延續！</em>'},
-   {w:'abaoji',t:'我是契丹族的<em>耶律阿保機</em>！我統一了各部落，建立國家。',cast:[['xiaoan',0],['yin',1],['abaoji',3]]},
-   {w:'',t:'後來，他的兒子<em>耶律德光</em>趁中原五代混亂，取得了「燕雲十六州」。',cast:[['xiaoan',0],['yin',1],['deguang',3]]},
-   {w:'yin',t:'燕雲十六州在長城一帶，是擋住北方騎兵的<em>軍事要地</em>。少了它，騎兵就能直衝中原平原！'},
+   {w:'toto',t:'等一下，「藩鎮」是什麼啊？'},
+   {w:'xiaoan',t:'就是唐朝後期手握兵權的<em>地方節度使</em>，各自擁兵，不聽中央的話。'},
+   {w:'abaoji',t:'我是契丹族的<em>耶律阿保機</em>！我統一了各部落，建立國家。',cast:[['xiaoan',0],['toto',1],['yin',2],['abaoji',4]]},
+   {w:'',t:'後來，他的兒子<em>耶律德光</em>趁中原五代混亂，取得了「燕雲十六州」。',cast:[['xiaoan',0],['toto',1],['yin',2],['deguang',4]]},
+   {w:'yin',t:'燕雲十六州在長城一帶，是擋住北方騎兵的<em>軍事要地</em>。'},
    {w:'deguang',t:'從此國號定為<em>「遼」</em>！女真、西夏、高麗，都要向我們稱臣！'},
-   {w:'xiaoan',t:'哇，遼國一開始就超強的……'},
+   {w:'toto',t:'阿晃哥考你：燕雲十六州為什麼這麼重要？'},
+   {w:'xiaoan',t:'簡單！它是長城一帶的屏障，丟了它，北方騎兵就能<em>直衝中原平原</em>！'},
   ],
   card:{t:'五代與遼的建立',items:['五代十國是<b>唐末藩鎮割據</b>的延續','契丹族<b>耶律阿保機</b>建國，<b>耶律德光</b>時取得<b>燕雲十六州</b>（軍事要地）','國號<b>「遼」</b>，女真、西夏、高麗等向遼稱臣']},
   quiz:{q:'為什麼「燕雲十六州」對中原王朝這麼重要？',o:['那裡盛產絲綢和茶葉','它是軍事要地，可以阻擋北方騎兵','它是遼國的首都','那裡有很多海港'],a:1,e:'燕雲十六州位在長城一帶，是中原北方的天然屏障。被遼取得後，中原北邊幾乎無險可守。'} },
 { ch:'北宋特質', stop:'第二站', title:'北宋的建立與特質', yr:'西元 960 年', bg:'chenqiao',
-  cast:[['soldier',0],['zhao',2]],
+  cast:[['xiaoan',0],['toto',1],['soldier',3],['zhao',4]],
   lines:[
    {w:'',t:'西元960年，後周大將趙匡胤帶兵出征，走到了陳橋驛……'},
    {w:'soldier',t:'將軍！大家要擁立您當皇帝！黃袍給您披上——這就是<em>「陳橋兵變」</em>！'},
    {w:'zhao',t:'好吧……那就由我當皇帝，國號<em>「宋」</em>，我就是<em>宋太祖</em>！'},
-   {w:'',t:'宋朝的首都，定在<em>汴京</em>，也就是今天的河南開封。',bg:'palace',cast:[['xiaoan',0],['yin',1],['zhao',3]]},
+   {w:'toto',t:'黃袍加身？原來皇帝也可以這樣被大家「推」上去喔！'},
+   {w:'',t:'宋朝的首都，定在<em>汴京</em>，也就是今天的河南開封。',bg:'palace',cast:[['xiaoan',0],['toto',1],['yin',2],['zhao',4]]},
    {w:'zhao',t:'各位將軍，乾了這杯……把兵權交出來，回家享福吧！',bg:'feast',cast:[['general',0],['zhao',2],['general',4,true]]},
-   {w:'yin',t:'這就是<em>「杯酒釋兵權」</em>！宋太祖怕唐末藩鎮的悲劇重演，把兵權收回中央。',bg:'palace',cast:[['xiaoan',0],['yin',1],['zhao',3]]},
-   {w:'yin',t:'宋朝重用讀書人，形成<em>文人政治</em>、<em>中央強、地方弱</em>。政治穩定了，但國防軍力也比較弱。'},
-   {w:'xiaoan',t:'原來宋朝打仗老是吃虧，是從這裡埋下伏筆的！'},
+   {w:'yin',t:'這就是<em>「杯酒釋兵權」</em>！宋太祖怕唐末藩鎮的悲劇重演，把兵權收回中央。',bg:'palace',cast:[['xiaoan',0],['toto',1],['yin',2],['zhao',4]]},
+   {w:'yin',t:'宋朝重用讀書人，形成<em>文人政治</em>、<em>中央強、地方弱</em>。'},
+   {w:'toto',t:'政治穩定是很好啦，可是這樣打仗不會吃虧嗎？'},
+   {w:'xiaoan',t:'會！重文輕武，國防軍力比較弱，這就是宋朝後來一直被欺負的<em>伏筆</em>！'},
   ],
   card:{t:'北宋的特質',items:['建國者：宋太祖<b>趙匡胤</b>','<b>陳橋兵變</b>（黃袍加身）、<b>杯酒釋兵權</b>','首都：<b>汴京</b>（河南開封）','特質：<b>文人政治</b>、<b>中央強地方弱</b>']},
   quiz:{q:'宋太祖「杯酒釋兵權」的主要目的是什麼？',o:['請將軍們吃飯慶功','避免武將擁兵自重，加強中央集權','籌措對遼作戰的軍費','和遼國結為同盟'],a:1,e:'宋太祖記取唐末藩鎮割據的教訓，收回武將兵權，形成「中央強、地方弱」。'} },
@@ -370,38 +380,43 @@ const S=[
   lines:[
    {w:'yin',t:'來看地圖！北邊是契丹族的<em>「遼」</em>，國土非常遼闊。',hl:'liao'},
    {w:'yin',t:'西北是黨項族建立的<em>「西夏」</em>。',hl:'xixia'},
-   {w:'yin',t:'東北還有<em>高麗</em>。宋朝被一群強鄰包圍，壓力山大！',hl:'goryeo'},
-   {w:'yin',t:'而且，<em>燕雲十六州</em>在遼國手上，宋朝北邊幾乎沒有屏障……',hl:'yanyun'},
-   {w:'yin',t:'看看首都汴京，離邊境這麼近！宋遼之間的大戰，一觸即發！',hl:'song'},
+   {w:'yin',t:'東北還有<em>高麗</em>。宋朝被一群強鄰包圍！',hl:'goryeo'},
+   {w:'toto',t:'被這麼多國家包圍，換我也會緊張……',hl:'goryeo'},
+   {w:'xiaoan',t:'而且你看，<em>燕雲十六州</em>在遼國手上，宋朝北邊幾乎沒有屏障！',hl:'yanyun'},
+   {w:'yin',t:'首都汴京離邊境這麼近，宋遼之間的大戰，一觸即發！',hl:'song'},
   ],
   card:{t:'宋的鄰國',items:['北方：<b>遼</b>（契丹族）','西北：<b>西夏</b>（黨項族）','東北：<b>高麗</b>；後來又崛起女真族的<b>金</b>','燕雲十六州在遼手中，宋的北方缺少屏障']},
   quiz:null },
 { ch:'澶淵之盟', stop:'第四站', title:'澶淵之盟', yr:'西元 1004 年・宋真宗', bg:'river',
-  cast:[['zhenzong',1],['kouzhun',3]],
+  cast:[['xiaoan',0],['toto',1],['zhenzong',3],['kouzhun',4]],
   lines:[
    {w:'',t:'宋真宗在位時，遼國大軍大舉南侵，一路打到黃河邊的澶州！'},
    {w:'zhenzong',t:'好、好可怕……要不要乾脆遷都逃走啊？'},
    {w:'kouzhun',t:'陛下萬萬不可！請您<em>御駕親征</em>，鼓舞士氣！'},
    {w:'',t:'宰相<em>寇準</em>力主真宗親征，宋軍士氣大振。最後雙方談和，訂下<em>「澶淵之盟」</em>。'},
-   {w:'yin',t:'盟約第一條：宋遼<em>平等</em>，約為<em>「兄弟之邦」</em>。第二條：燕雲十六州<em>沒有拿回來</em>。',cast:[['zhenzong',0],['kouzhun',1],['yin',3],['xiaoan',4,true]]},
+   {w:'yin',t:'盟約第一條：宋遼<em>平等</em>，約為<em>「兄弟之邦」</em>。第二條：燕雲十六州<em>沒有拿回來</em>。',cast:[['xiaoan',0],['toto',1],['yin',2],['zhenzong',3],['kouzhun',4]]},
    {w:'yin',t:'第三條：宋每年給遼<em>「歲幣」</em>——銀和絹。我就是這樣被送到遼國的！'},
-   {w:'xiaoan',t:'每年都要送錢？宋朝也太虧了吧！'},
+   {w:'toto',t:'每年都要送錢？宋朝也太虧了吧！'},
    {w:'yin',t:'來算帳：歲幣只占宋朝收入的一小部分，比打仗的軍費便宜太多；邊境開放貿易，宋朝還能賺回來。'},
-   {w:'yin',t:'換來的是兩國<em>一百多年的和平</em>！只是燕雲沒拿回，國防仍然受到威脅。'},
+   {w:'xiaoan',t:'我懂了！花小錢買和平，比打仗划算多了。'},
+   {w:'yin',t:'沒錯，換來兩國<em>一百多年的和平</em>！只是燕雲沒拿回，國防仍然受到威脅。'},
   ],
   card:{t:'澶淵之盟',items:['<b>宋真宗</b>時遼大舉南侵，宰相<b>寇準</b>力主親征','宋遼<b>平等</b>，約為<b>兄弟之邦</b>','宋每年給遼<b>歲幣</b>：銀、絹','未取回燕雲十六州，國防仍受威脅','維持兩國<b>一百多年的和平</b>']},
   quiz:{q:'下列哪一項「不是」澶淵之盟的內容或結果？',o:['宋遼約為兄弟之邦','宋每年給遼歲幣','宋取回燕雲十六州','兩國維持一百多年和平'],a:2,e:'澶淵之盟並沒有讓宋取回燕雲十六州，所以宋的北方國防一直受到威脅。'} },
 { ch:'聯金滅遼', stop:'第五站', title:'聯金滅遼', yr:'北宋中期・東北白山黑水', bg:'snow',
-  cast:[['aguda',3]],
+  cast:[['xiaoan',0],['toto',1],['aguda',4]],
   lines:[
    {w:'',t:'一百多年後，東北的白山黑水間，女真族崛起了。'},
    {w:'aguda',t:'我是女真族的<em>完顏阿骨打</em>！遼國欺壓我們太久了，今天建國，國號<em>「金」</em>！'},
-   {w:'',t:'金國一路進攻遼國。這時候，宋朝的皇帝是<em>宋徽宗</em>。',bg:'palace',cast:[['xiaoan',0],['yin',1],['huizong',3]]},
+   {w:'',t:'金國一路進攻遼國。這時候，宋朝的皇帝是<em>宋徽宗</em>。',bg:'palace',cast:[['xiaoan',0],['toto',1],['yin',2],['huizong',4]]},
    {w:'huizong',t:'朕的書法、畫畫都是一流！聽說金很強？那就<em>和金結盟</em>，一起夾擊遼國，拿回燕雲十六州！'},
+   {w:'toto',t:'皇上，您畫畫是很厲害啦，可是打仗呢……？'},
    {w:'yin',t:'約定是：滅遼之後宋取回燕雲，原本給遼的<em>歲幣改給金</em>。唉，我要換老闆了……'},
    {w:'',t:'結果金軍勢如破竹，宋軍卻打得很狼狽。',bg:'snow',cast:[['huizong',1],['aguda',3]]},
    {w:'aguda',t:'原來宋朝這麼弱啊……嘿嘿，中原好像也不難拿嘛！'},
-   {w:'yin',t:'遼雖然滅了，但合作過程<em>暴露了宋國力文弱</em>，反而讓金起了<em>南侵之心</em>。',cast:[['xiaoan',0],['yin',1],['aguda',3]]},
+   {w:'xiaoan',t:'換我考你，TOTO：聯金滅遼最後帶來什麼結果？',cast:[['xiaoan',0],['toto',1],['yin',2],['aguda',4]]},
+   {w:'toto',t:'遼是滅了，可是合作過程<em>暴露了宋國力文弱</em>，金就起了<em>南侵之心</em>！'},
+   {w:'yin',t:'答對！宋朝等於引狼入室，大危機就要來了。'},
   ],
   card:{t:'聯金滅遼',items:['北宋中期，東北<b>女真族</b>建國，國號<b>「金」</b>，進攻遼','<b>宋徽宗</b>與金結盟：取回燕雲十六州，<b>歲幣改給金</b>','遼滅亡，但宋<b>暴露國力文弱</b>，引發金南侵之心']},
   quiz:{q:'宋徽宗「聯金滅遼」，最後帶來什麼影響？',o:['宋從此國力強盛','暴露宋軍事弱點，引發金南侵之心','金國向宋稱臣','西夏因此滅亡'],a:1,e:'聯金滅遼的過程中，宋軍表現不佳，讓金看清宋的弱點，不久就南下攻宋。'} },
@@ -411,22 +426,26 @@ const S=[
    {w:'',t:'宋欽宗靖康二年，金軍攻破首都汴京！',fx:'shake'},
    {w:'qinzong',t:'父皇！我們被金兵抓走了……嗚嗚……'},
    {w:'',t:'<em>徽宗、欽宗</em>兩位皇帝被擄往北方，北宋滅亡，史稱<em>「靖康之禍」</em>。'},
-   {w:'gaozong',t:'宋室南遷，朕是<em>宋高宗</em>，後來定都<em>臨安</em>，也就是今天的杭州。這就是<em>「南宋」</em>。',bg:'lake',cast:[['xiaoan',0],['yin',1],['gaozong',3]]},
+   {w:'toto',t:'兩個皇帝都被抓走？這也太慘了吧……',cast:[['xiaoan',0],['toto',1],['qinzong',3]]},
+   {w:'gaozong',t:'宋室南遷，朕是<em>宋高宗</em>，後來定都<em>臨安</em>，也就是今天的杭州。這就是<em>「南宋」</em>。',bg:'lake',cast:[['xiaoan',0],['toto',1],['yin',2],['gaozong',4]]},
    {w:'yuefei',t:'我是<em>岳飛</em>！一定要打回北方、收復失土！',bg:'battle',cast:[['yuefei',2],['yin',4]]},
    {w:'',t:'岳飛帶領岳家軍屢次打敗金兵，但朝廷卻一心想和金議和……'},
-   {w:'yin',t:'最後，岳飛被以<em>「莫須有」</em>的罪名殺害。宋與金議和，形成<em>南北對峙</em>的局面。',bg:'lake',cast:[['xiaoan',0],['yin',1],['gaozong',3]]},
-   {w:'xiaoan',t:'「莫須有」，意思是「也許有吧」？就這樣定罪，太冤枉了！'},
+   {w:'yin',t:'最後，岳飛被以<em>「莫須有」</em>的罪名殺害。宋與金議和，形成<em>南北對峙</em>的局面。',bg:'lake',cast:[['xiaoan',0],['toto',1],['yin',2],['gaozong',4]]},
+   {w:'toto',t:'「莫須有」，意思是「也許有吧」？就這樣定罪，太冤枉了！'},
+   {w:'xiaoan',t:'對啊……從此南宋和金一南一北，形成對峙。'},
   ],
   card:{t:'靖康之禍',items:['宋欽宗<b>靖康二年</b>：金攻破<b>汴京</b>，徽、欽二帝被擄，<b>北宋滅亡</b>','<b>南宋建立</b>：宋室南遷，<b>高宗</b>定都<b>臨安</b>（杭州）','岳飛以<b>「莫須有」</b>罪名被殺，宋金議和，形成<b>南北對峙</b>']},
   quiz:{q:'造成北宋滅亡的事件是哪一個？',o:['陳橋兵變','澶淵之盟','靖康之禍','杯酒釋兵權'],a:2,e:'靖康二年金攻破汴京，徽宗、欽宗被擄，北宋滅亡，史稱「靖康之禍」。'} },
 { ch:'結語', stop:'尾聲', title:'帳本闔上之前', yr:'想一想', bg:'room',
-  cast:[['xiaoan',1],['yin',3]],
+  cast:[['xiaoan',0],['toto',1],['yin',3]],
   lines:[
    {w:'yin',t:'帳本翻完囉！宋朝經濟實力很強，卻一直受到鄰國武力的威脅。'},
-   {w:'yin',t:'留個問題給你：為什麼主張抗金的<em>岳飛</em>，反而不受朝廷支持？'},
-   {w:'xiaoan',t:'也許是朝廷怕打仗花錢又打不贏？還是怕武將太強，就像宋太祖杯酒釋兵權那樣？'},
-   {w:'yin',t:'很會聯想喔！推薦你讀讀岳飛的〈滿江紅〉，感受他面對局勢的不甘心。'},
-   {w:'',t:'鬧鐘響了。小安醒來，發現課本上那張九宮格……好像全都記住了！',bg:'room2',cast:[['xiaoan',2]]},
+   {w:'yin',t:'留個問題給你們：為什麼主張抗金的<em>岳飛</em>，反而不受朝廷支持？'},
+   {w:'toto',t:'阿晃哥，你覺得呢？'},
+   {w:'xiaoan',t:'也許朝廷怕武將太強？就像宋太祖杯酒釋兵權那樣，一直防著武將。'},
+   {w:'toto',t:'我覺得是朝廷只想偏安江南、和金議和，不想再打仗了。'},
+   {w:'yin',t:'兩個想法都很有道理！推薦你們讀讀岳飛的〈滿江紅〉，感受他面對局勢的不甘心。'},
+   {w:'',t:'鬧鐘響了。阿晃哥和 TOTO 醒來，發現課本上那張九宮格……好像全都記住了！',bg:'room2',cast:[['xiaoan',1],['toto',3]]},
   ],
   card:{t:'想一想',items:['宋經濟實力強，卻受鄰國<b>武力威脅</b>','為何主張抗金的<b>岳飛</b>不受朝廷支持？','延伸閱讀：岳飛〈<b>滿江紅</b>〉']},
   quiz:null },
@@ -452,16 +471,20 @@ S.forEach((sc,si)=>{
 TL.push({si:S.length-1,type:'recap'});
 
 const plain=h=>h.replace(/<[^>]+>/g,'');
+const VO=/*VO*/{"0_title":2.435,"0_l0":9.03,"0_l1":5.285,"0_l2":1.82,"0_l3":7.258,"0_l4":3.748,"0_l5":2.355,"0_l6":8.19,"0_l7":6.844,"0_card":12.599,"1_title":2.488,"1_l0":5.431,"1_l1":4.699,"1_l2":2.078,"1_l3":6.232,"1_l4":7.135,"1_l5":6.199,"1_l6":5.345,"1_l7":5.986,"1_l8":4.024,"1_l9":6.843,"1_card":17.231,"1_quiz":17.511,"1_reveal":11.154,"2_title":2.979,"2_l0":6.942,"2_l1":6.363,"2_l2":4.588,"2_l3":4.498,"2_l4":5.156,"2_l5":4.775,"2_l6":7.477,"2_l7":5.715,"2_l8":4.569,"2_l9":7.544,"2_card":15.501,"2_quiz":17.947,"2_reveal":9.871,"3_title":1.899,"3_l0":5.353,"3_l1":2.733,"3_l2":4.239,"3_l3":3.617,"3_l4":6.435,"3_l5":5.717,"3_card":15.148,"4_title":2.18,"4_l0":7.07,"4_l1":3.386,"4_l2":5.861,"4_l3":8.799,"4_l4":7.211,"4_l5":5.662,"4_l6":3.512,"4_l7":9.941,"4_l8":4.725,"4_l9":7.384,"4_card":20.02,"4_quiz":16.108,"4_reveal":8.683,"5_title":2.101,"5_l0":5.902,"5_l1":6.48,"5_l2":5.488,"5_l3":9.759,"5_l4":3.717,"5_l5":7.187,"5_l6":4.795,"5_l7":4.33,"5_l8":5.029,"5_l9":5.57,"5_l10":4.437,"5_card":18.212,"5_quiz":17.642,"5_reveal":9.921,"6_title":2.103,"6_l0":4.634,"6_l1":3.691,"6_l2":6.315,"6_l3":3.554,"6_l4":8.876,"6_l5":3.847,"6_l6":6.494,"6_l7":7.24,"6_l8":5.029,"6_l9":4.775,"6_card":19.547,"6_quiz":12.199,"6_reveal":8.508,"7_title":2.34,"7_l0":6.785,"7_l1":6.589,"7_l2":1.861,"7_l3":7.853,"7_l4":5.107,"7_l5":7.7,"7_l6":8.532,"7_card":13.404,"recap":8.544};
+function keyOf(it){ return it.type==='line'? `${it.si}_l${it.li}` : it.type==='recap'? 'recap' : `${it.si}_${it.type}`; }
+function voLead(it){ return it.type==='title'?0.6:0.25; }
 function durOf(it){
-  if(it.type==='title') return 3.2;
-  if(it.type==='line') return 1.6+plain(S[it.si].lines[it.li].t).length*0.16;
-  if(it.type==='card') return 2.5+S[it.si].card.items.length*1.6;
-  if(it.type==='quiz') return 7;
-  if(it.type==='reveal') return 6.5;
-  if(it.type==='recap') return 14;
+  const v=VO[keyOf(it)]||0, lead=voLead(it);
+  if(it.type==='title') return Math.max(3.2, lead+v+0.6);
+  if(it.type==='line') return v? lead+v+0.6 : 1.6+plain(S[it.si].lines[it.li].t).length*0.16;
+  if(it.type==='card') return Math.max(2.5+S[it.si].card.items.length*1.6, lead+v+1.2);
+  if(it.type==='quiz') return v? lead+v+4 : 7;
+  if(it.type==='reveal') return v? lead+v+1.5 : 6.5;
+  if(it.type==='recap') return Math.max(14, lead+v+6);
 }
 
-let cur=-1, curBg=null, curCast='', lineStart=0, typing=null, score=0, answered=0, auto=false, tts=false, music=false;
+let cur=-1, curBg=null, curCast='', lineStart=0, typing=null, score=0, answered=0, auto=false, tts=true, music=false;
 
 function setBg(key){
   if(key===curBg) return; curBg=key;
@@ -496,15 +519,15 @@ function castAt(si,li){
 function hideOverlays(){['#title','#card','#quiz','#recap','#start'].forEach(s=>$(s).classList.remove('show'));}
 function chips(si){
   $('#topbar').innerHTML=S.map((s,i)=>`<span class="chip ${i===si?'on':i<si?'done':''}">${s.ch}</span>`).join('')+
-   `<span class="spacer"></span><button class="tbtn ${auto?'on':''}" id="bAuto">▶ 自動播放</button><button class="tbtn ${tts?'on':''}" id="bTts">🔊 朗讀</button><button class="tbtn ${music?'on':''}" id="bMus">🎵 音樂</button>`;
+   `<span class="spacer"></span><button class="tbtn ${auto?'on':''}" id="bAuto">▶ 自動播放</button><button class="tbtn ${tts?'on':''}" id="bTts">🔊 配音</button><button class="tbtn ${music?'on':''}" id="bMus">🎵 音樂</button>`;
   $('#bAuto').onclick=e=>{e.stopPropagation();auto=!auto;chips(si);if(auto)scheduleAuto();};
-  $('#bTts').onclick=e=>{e.stopPropagation();tts=!tts;chips(si);if(!tts)speechSynthesis.cancel();else speakCur();};
+  $('#bTts').onclick=e=>{e.stopPropagation();tts=!tts;chips(si);if(!tts)stopVoice();else speakCur();};
   $('#bMus').onclick=e=>{e.stopPropagation();music=!music;chips(si);music?startMusic():stopMusic();};
 }
 
 function show(i){
   cur=i; const it=TL[i]; const sc=S[it.si];
-  hideOverlays(); clearTimeout(autoTimer); if(!VIDEO) speechSynthesis.cancel();
+  hideOverlays(); clearTimeout(autoTimer); if(!VIDEO) stopVoice();
   document.querySelectorAll('[data-local]').forEach(e=>e.removeAttribute('data-local'));
   chips(it.si);
   const dlg=$('#dialog');
@@ -515,6 +538,7 @@ function show(i){
     t.classList.add('show'); t.setAttribute('data-local','');
     const f=$('#fader'); f.classList.remove('in'); void f.offsetWidth; f.classList.add('in'); f.setAttribute('data-local','');
     dlg.style.visibility='hidden';
+    if(!VIDEO){ speakCur(); scheduleAuto(); }
     // replay entry
     document.querySelectorAll('.actor').forEach(a=>{a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter');a.setAttribute('data-local','');});
   }
@@ -543,7 +567,7 @@ function show(i){
     $('#card').innerHTML=`<div class="scroll" data-local><h2><span class="badge">📜 歷史小卡</span>${c.t}</h2><ul>${c.items.map((x,k)=>`<li style="animation-delay:${.4+k*.5}s">${x}</li>`).join('')}</ul>${VIDEO?'':'<button class="btn" id="cardNext">繼續 ▶</button>'}</div>`;
     $('#card').classList.add('show');
     $('#card').querySelectorAll('li').forEach(e=>e.setAttribute('data-local',''));
-    if(!VIDEO){$('#cardNext').onclick=e=>{e.stopPropagation();next();}; speak(c.t+'。'+c.items.map(plain).join('。')); scheduleAuto();}
+    if(!VIDEO){$('#cardNext').onclick=e=>{e.stopPropagation();next();}; speakCur(); scheduleAuto();}
   }
   if(it.type==='quiz'||it.type==='reveal'){
     dlg.style.visibility='hidden';
@@ -554,21 +578,21 @@ function show(i){
     $('#quiz').classList.add('show');
     if(rev){const r=$('#quiz .opt.right'); r.setAttribute('data-local','');}
     if(!VIDEO){
-      speak(q.q+'。'+q.o.map((o,k)=>'ABCD'[k]+'，'+o).join('。'));
+      speakCur();
       $('#quiz').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
         e.stopPropagation(); if($('#quiz').dataset.done==='1') return;
         $('#quiz').dataset.done='1'; const k=+b.dataset.k; answered++;
         $('#quiz').querySelectorAll('.opt').forEach(x=>{const kk=+x.dataset.k; if(kk===q.a)x.classList.add('right'); else if(kk===k)x.classList.add('wrong'); else x.classList.add('fade');});
         const ok=k===q.a; if(ok){score++;ding(true);}else ding(false);
         $('#qfoot').innerHTML=`<div class="explain">${ok?'🎉 答對了！':'😅 差一點！答案是 '+'ABCD'[q.a]+'。'}${q.e}</div><button class="btn" id="qNext">繼續 ▶</button>`;
-        speak((ok?'答對了！':'差一點！')+q.e);
+        speak(it.si+'_reveal');
         $('#qNext').onclick=ev=>{ev.stopPropagation();next();};
       });
       $('#quiz').dataset.done='0';
     }
   }
   if(it.type==='recap'){
-    dlg.style.visibility='hidden'; setBg('room2'); setCast([['xiaoan',0],['yin',4]]);
+    dlg.style.visibility='hidden'; setBg('room2'); setCast([['xiaoan',0],['yin',4],['toto',5]]);
     document.querySelectorAll('.actor').forEach(a=>a.classList.remove('speaking','dim'));
     const g=[
       ['前言','10～12世紀，多民族多國家並立'],['五代與遼','契丹耶律阿保機建國；耶律德光取得燕雲十六州'],['北宋特質','趙匡胤陳橋兵變、杯酒釋兵權；文人政治'],
@@ -609,7 +633,7 @@ let autoTimer=null;
 function scheduleAuto(){
   clearTimeout(autoTimer); if(!auto || VIDEO) return;
   const it=TL[cur]; if(it.type==='quiz'||it.type==='recap') return;
-  if(tts && it.type!=='title') return; // tts end will advance
+  if(tts && VO[keyOf(it)]) return; // 配音播完會自動前進
   autoTimer=setTimeout(next, durOf(it)*1000);
 }
 function next(){ if(cur<TL.length-1) show(cur+1); }
@@ -621,19 +645,18 @@ stage.addEventListener('click',()=>{
 addEventListener('keydown',e=>{ if(e.code==='Space'||e.code==='ArrowRight'||e.code==='Enter'){ e.preventDefault(); const it=TL[cur]; if(it && (it.type==='line'||it.type==='title')) stage.click(); else if(it && it.type==='card') next(); }});
 
 /* TTS */
-let voice=null;
-function pickVoice(){const vs=speechSynthesis.getVoices(); voice=vs.find(v=>/zh[-_]TW/i.test(v.lang))||vs.find(v=>/zh/i.test(v.lang))||null;}
-if('speechSynthesis' in window){pickVoice(); speechSynthesis.onvoiceschanged=pickVoice;}
-function speak(text,onend){
-  if(!tts||VIDEO||!('speechSynthesis' in window)) return;
-  speechSynthesis.cancel();
-  const u=new SpeechSynthesisUtterance(text.replace(/zzz|呼……/g,'').replace(/[「」〈〉]/g,'')); u.lang='zh-TW'; if(voice)u.voice=voice; u.rate=1.05;
-  u.onend=()=>{onend&&onend();}; speechSynthesis.speak(u);
+const voice=new Audio();
+function stopVoice(){ try{voice.pause();}catch(e){} voice.onended=null; }
+function speak(key,onend){
+  if(!tts||VIDEO) return;
+  stopVoice(); if(!VO[key]) return;
+  voice.src='audio/'+key+'.mp3'; voice.onended=()=>{onend&&onend();};
+  voice.play().catch(()=>{});
 }
 function speakCur(){
-  const it=TL[cur]; if(!it||it.type!=='line') return;
-  const t=plain(S[it.si].lines[it.li].t);
-  speak(t,()=>{ if(auto && TL[cur]===it) autoTimer=setTimeout(next,600); });
+  const it=TL[cur]; if(!it) return;
+  if(it.type==='quiz'||it.type==='recap'){ speak(keyOf(it)); return; }
+  speak(keyOf(it),()=>{ if(auto && TL[cur]===it) autoTimer=setTimeout(next,600); });
 }
 
 /* Web Audio 背景音樂 & 音效 */
@@ -647,7 +670,7 @@ function ding(ok){ try{const a=ac();a.resume();const t=a.currentTime; if(ok){plu
 
 /* 開始畫面 */
 $('#start').innerHTML=`<div class="scroll"><h1><small>國中歷史互動動畫故事</small>銀兩君的時空帳本</h1>
-  <p>跟著會說話的歲幣「銀兩君」，穿越回<b>宋、遼、金</b>多民族多國家的時代！<br>點畫面或按空白鍵繼續，每一站結束都有歷史小卡和隨堂小測驗。</p>
+  <p>跟著阿晃哥、TOTO 和會說話的歲幣「銀兩君」，穿越回<b>宋、遼、金</b>多民族多國家的時代！<br>點畫面或按空白鍵繼續，每一站結束都有歷史小卡和隨堂小測驗。</p>
   <button class="btn" id="go" style="font-size:30px;padding:10px 40px">開始冒險 ▶</button>
   <p class="credit">內容依據：「不消失的歷史課」H3-012〈多民族多國家的宋遼金〉課程重點整理改編</p></div>`;
 if(!VIDEO){
@@ -660,7 +683,11 @@ window.__TL=()=>TL.map(it=>({type:it.type,si:it.si,dur:durOf(it)}));
 window.__show=i=>{ show(i); };
 window.__tick=(tItem,tScene)=>{
   const it=TL[cur];
-  if(it.type==='line') typeTo(Math.floor(Math.max(0,tItem-0.15)*CPS));
+  if(it.type==='line'){
+    const v=VO[keyOf(it)], n=plain(S[it.si].lines[it.li].t).length;
+    const cps = v? Math.max(n/(v*0.9), 6) : CPS;
+    typeTo(Math.floor(Math.max(0,tItem-(v?voLead(it):0.15))*cps));
+  }
   document.getAnimations().forEach(a=>{
     a.pause();
     const el=a.effect&&a.effect.target;
