@@ -1,0 +1,673 @@
+<!DOCTYPE html>
+<html lang="zh-Hant-TW">
+<head>
+<meta charset="UTF-8">
+<meta name="viewport" content="width=device-width, initial-scale=1">
+<title>26.11.21_銀兩君的時空帳本｜宋遼金互動動畫故事</title>
+<style>
+  :root{
+    --ink:#2a1f17; --paper:#fbf3e2; --red:#b8322a; --gold:#d9a521; --jade:#2f7d6d; --sky:#cfe6f2;
+  }
+  *{box-sizing:border-box;margin:0;padding:0}
+  html,body{height:100%;background:#1b1411;overflow:hidden;font-family:"Noto Sans TC","Noto Sans CJK TC","PingFang TC","Microsoft JhengHei",sans-serif;color:var(--ink)}
+  #wrap{position:fixed;inset:0;display:flex;align-items:center;justify-content:center}
+  #stage{position:relative;width:1280px;height:720px;overflow:hidden;background:#000;transform-origin:center center;flex:none;border-radius:6px}
+  .layer{position:absolute;inset:0}
+  #bg svg{width:100%;height:100%;display:block}
+
+  /* actors */
+  .actor{position:absolute;bottom:170px;width:200px;height:300px;transition:left .6s ease, opacity .5s, transform .4s;}
+  .actor .inner{width:100%;height:100%;animation:breathe 3s ease-in-out infinite;transform-origin:50% 100%}
+  .actor.flip .inner svg{transform:scaleX(-1)}
+  .actor svg{width:100%;height:100%;overflow:visible}
+  .actor.enter{animation:popin .6s cubic-bezier(.3,1.6,.5,1) both}
+  .actor.dim{filter:saturate(.85) brightness(.9)}
+  .actor.speaking .inner{animation:hop .5s ease-in-out infinite}
+  .actor .mouth-talk{display:none}
+  .actor.speaking .mouth-idle{display:none}
+  .actor.speaking .mouth-talk{display:inline;animation:talk .22s steps(2) infinite}
+  .eyes{animation:blink 4s infinite;transform-origin:100px 115px}
+  .actor.yin{bottom:290px;width:180px;height:180px}
+  .actor.yin .inner{animation:floaty 2.4s ease-in-out infinite}
+  .actor.yin.speaking .inner{animation:floaty 1s ease-in-out infinite}
+  .actor .tag{position:absolute;left:50%;top:-6px;transform:translateX(-50%);background:var(--paper);border:2px solid var(--ink);border-radius:20px;padding:2px 12px;font-size:17px;font-weight:700;white-space:nowrap;opacity:0;transition:opacity .3s}
+  .actor.speaking .tag{opacity:1}
+  @keyframes breathe{0%,100%{transform:scaleY(1)}50%{transform:scaleY(1.015)}}
+  @keyframes hop{0%,100%{transform:translateY(0)}50%{transform:translateY(-8px)}}
+  @keyframes floaty{0%,100%{transform:translateY(0) rotate(-3deg)}50%{transform:translateY(-14px) rotate(3deg)}}
+  @keyframes popin{0%{transform:scale(.3) translateY(60px);opacity:0}100%{transform:none;opacity:1}}
+  @keyframes talk{0%{transform:scaleY(1)}100%{transform:scaleY(.3)}}
+  @keyframes blink{0%,46%,50%,100%{transform:scaleY(1)}48%{transform:scaleY(.1)}}
+
+  /* dialog */
+  #dialog{position:absolute;left:40px;right:40px;bottom:22px;height:150px;background:rgba(251,243,226,.96);border:4px solid var(--ink);border-radius:18px;box-shadow:0 6px 0 rgba(0,0,0,.35);padding:30px 34px 20px 34px}
+  #dialog .name{position:absolute;top:-22px;left:26px;background:var(--red);color:#fff;font-weight:800;font-size:22px;padding:3px 18px;border-radius:12px;border:3px solid var(--ink)}
+  #dialog .name.nar{background:var(--jade)}
+  #dialog .text{font-size:29px;line-height:1.55;font-weight:500;letter-spacing:.5px}
+  #dialog .text em{font-style:normal;color:var(--red);font-weight:800}
+  #dialog .next{position:absolute;right:22px;bottom:12px;font-size:20px;animation:nudge 1s infinite;opacity:.7}
+  @keyframes nudge{0%,100%{transform:translateY(0)}50%{transform:translateY(5px)}}
+
+  /* overlays */
+  #fader{position:absolute;inset:0;background:#000;pointer-events:none;opacity:0}
+  #fader.in{animation:fadeout 1s ease both}
+  @keyframes fadeout{0%{opacity:1}100%{opacity:0}}
+  #title{position:absolute;inset:0;display:none;align-items:center;justify-content:center;flex-direction:column;background:radial-gradient(circle at 50% 45%,rgba(40,25,15,.55),rgba(10,6,4,.9))}
+  #title.show{display:flex}
+  #title .stop{font-size:30px;color:var(--gold);letter-spacing:8px;animation:rise .8s .1s both}
+  #title .big{font-size:84px;font-weight:900;color:#fff;letter-spacing:6px;text-shadow:0 5px 0 var(--red);animation:rise .8s .3s both}
+  #title .yr{margin-top:16px;font-size:28px;color:#f0dcb0;animation:rise .8s .55s both}
+  @keyframes rise{0%{opacity:0;transform:translateY(30px)}100%{opacity:1;transform:none}}
+
+  #card,#quiz,#recap,#start{position:absolute;inset:0;display:none;align-items:center;justify-content:center;background:rgba(15,10,6,.55)}
+  #card.show,#quiz.show,#recap.show,#start.show{display:flex}
+  .scroll{background:var(--paper);border:5px solid var(--ink);border-radius:20px;box-shadow:0 10px 0 rgba(0,0,0,.4);padding:34px 46px;width:820px;animation:popin .6s cubic-bezier(.3,1.5,.5,1) both;position:relative}
+  .scroll h2{font-size:38px;margin-bottom:6px;display:flex;align-items:center;gap:12px}
+  .scroll h2 .badge{font-size:20px;background:var(--gold);border:3px solid var(--ink);border-radius:10px;padding:2px 10px}
+  .scroll ul{list-style:none;margin-top:14px}
+  .scroll li{font-size:28px;line-height:1.5;padding:6px 0 6px 40px;position:relative;animation:rise .5s both}
+  .scroll li::before{content:"✦";position:absolute;left:6px;color:var(--red)}
+  .scroll li b{color:var(--red)}
+  .btn{display:inline-block;margin-top:18px;background:var(--red);color:#fff;border:3px solid var(--ink);border-radius:14px;font-size:24px;font-weight:800;padding:8px 26px;cursor:pointer;box-shadow:0 4px 0 var(--ink);font-family:inherit}
+  .btn:active{transform:translateY(3px);box-shadow:0 1px 0 var(--ink)}
+  .q{font-size:32px;font-weight:800;line-height:1.45;margin:8px 0 14px}
+  .opts{display:grid;grid-template-columns:1fr 1fr;gap:14px}
+  .opt{font-family:inherit;text-align:left;font-size:25px;padding:14px 18px;border:3px solid var(--ink);border-radius:14px;background:#fff;cursor:pointer;line-height:1.35;transition:transform .15s}
+  .opt:hover{transform:translateY(-2px)}
+  .opt.right{background:#c9efd6;border-color:#1e7a45;animation:pulse .6s}
+  .opt.wrong{background:#f7c9c4;border-color:var(--red)}
+  .opt.fade{opacity:.45}
+  @keyframes pulse{0%{transform:scale(1)}50%{transform:scale(1.05)}100%{transform:scale(1)}}
+  .explain{margin-top:14px;font-size:24px;line-height:1.5;background:#fff5cf;border-left:8px solid var(--gold);padding:10px 16px;border-radius:8px;animation:rise .5s both}
+  .think{font-size:22px;color:#7a5a3a;margin-top:6px}
+
+  /* top bar */
+  #topbar{position:absolute;top:12px;left:16px;right:16px;display:flex;gap:6px;align-items:center;z-index:5}
+  .chip{font-size:15px;padding:3px 10px;border-radius:12px;background:rgba(255,255,255,.55);border:2px solid rgba(0,0,0,.25);color:#3a2a20;font-weight:700}
+  .chip.on{background:var(--gold);border-color:var(--ink)}
+  .chip.done{background:#e9dcc0}
+  .spacer{flex:1}
+  .tbtn{font-family:inherit;font-size:16px;font-weight:700;padding:4px 12px;border-radius:12px;border:2px solid var(--ink);background:var(--paper);cursor:pointer}
+  .tbtn.on{background:var(--jade);color:#fff}
+  .video #topbar,.video #dialog .next{display:none}
+
+  /* map highlight */
+  .region{transition:fill .5s}
+  .hl{animation:hlp 1.2s ease-in-out infinite}
+  @keyframes hlp{0%,100%{filter:brightness(1)}50%{filter:brightness(1.35) drop-shadow(0 0 10px #fff)}}
+  .shake{animation:shake .5s 2}
+  @keyframes shake{0%,100%{transform:none}25%{transform:translate(-8px,4px)}75%{transform:translate(8px,-4px)}}
+  .twinkle{animation:tw 2s ease-in-out infinite}
+  @keyframes tw{0%,100%{opacity:.3}50%{opacity:1}}
+  .drift{animation:drift 20s linear infinite}
+  @keyframes drift{0%{transform:translateX(-200px)}100%{transform:translateX(1400px)}}
+  .flick{animation:flick .4s ease-in-out infinite alternate;transform-origin:50% 100%}
+  @keyframes flick{0%{transform:scaleY(1) skewX(-3deg)}100%{transform:scaleY(1.15) skewX(3deg)}}
+  .snow{animation:snow 6s linear infinite}
+  @keyframes snow{0%{transform:translateY(-40px)}100%{transform:translateY(760px)}}
+  .wave{animation:wave 3s ease-in-out infinite alternate}
+  @keyframes wave{0%{transform:translateX(0)}100%{transform:translateX(-30px)}}
+  .flagwave{animation:flagw 1.2s ease-in-out infinite alternate;transform-origin:0 50%}
+  @keyframes flagw{0%{transform:skewY(-4deg)}100%{transform:skewY(4deg)}}
+
+  /* recap */
+  .grid9{display:grid;grid-template-columns:repeat(3,1fr);gap:8px;margin-top:10px}
+  .cell{border:3px solid var(--ink);border-radius:10px;padding:8px 10px;font-size:17px;line-height:1.4;background:#fff;animation:rise .5s both}
+  .cell h4{font-size:20px;margin-bottom:2px;color:var(--red)}
+  .cell.mid{background:var(--gold);display:flex;align-items:center;justify-content:center;font-size:30px;font-weight:900}
+  .tl{display:flex;justify-content:space-between;margin-top:12px;font-size:16px;font-weight:700;position:relative}
+  .tl::before{content:"";position:absolute;left:0;right:0;top:10px;height:4px;background:var(--ink)}
+  .tl div{position:relative;text-align:center;width:16%;padding-top:24px}
+  .tl div::before{content:"";position:absolute;left:50%;top:3px;width:18px;height:18px;margin-left:-9px;background:var(--red);border:3px solid var(--ink);border-radius:50%}
+
+  #start .scroll{text-align:center;width:900px}
+  #start h1{font-size:62px;letter-spacing:4px;line-height:1.2}
+  #start h1 small{display:block;font-size:26px;color:var(--jade);letter-spacing:2px;margin-bottom:6px}
+  #start p{font-size:22px;line-height:1.6;margin-top:12px}
+  .credit{font-size:15px !important;color:#7a6650;margin-top:14px !important}
+</style>
+</head>
+<body>
+<div id="wrap"><div id="stage">
+  <div id="bg" class="layer"></div>
+  <div id="actors" class="layer"></div>
+  <div id="topbar"></div>
+  <div id="dialog"><div class="name">旁白</div><div class="text"></div><div class="next">▼</div></div>
+  <div id="title"><div class="stop"></div><div class="big"></div><div class="yr"></div></div>
+  <div id="card"></div>
+  <div id="quiz"></div>
+  <div id="recap"></div>
+  <div id="start" class="show"></div>
+  <div id="fader"></div>
+</div></div>
+
+<script>
+/* ================= 角色 ================= */
+const C = {
+  xiaoan:{name:'林小安',skin:'#ffd9b8',robe:'#3d6fb6',hat:'student'},
+  yin:{name:'銀兩君',yin:true},
+  abaoji:{name:'耶律阿保機',skin:'#f2c49b',robe:'#8a5a2b',hat:'khitan',beard:true},
+  deguang:{name:'耶律德光',skin:'#f2c49b',robe:'#6d4c8a',hat:'khitan'},
+  soldier:{name:'將士',skin:'#f4c9a0',robe:'#7b7f86',hat:'helmet'},
+  zhao:{name:'宋太祖 趙匡胤',skin:'#f4c9a0',robe:'#e3b11c',hat:'crown',beard:true,prop:'cup'},
+  general:{name:'武將',skin:'#f4c9a0',robe:'#8a2e2e',hat:'helmet',beard:true},
+  zhenzong:{name:'宋真宗',skin:'#ffe0c2',robe:'#e3b11c',hat:'crown'},
+  kouzhun:{name:'寇準',skin:'#f6cfaa',robe:'#b8322a',hat:'wing',beard:true,prop:'scroll'},
+  aguda:{name:'完顏阿骨打',skin:'#eebf93',robe:'#2f5d50',hat:'fur',beard:true},
+  huizong:{name:'宋徽宗',skin:'#ffe0c2',robe:'#e3b11c',hat:'crown',prop:'brush'},
+  qinzong:{name:'宋欽宗',skin:'#ffe0c2',robe:'#d8a62a',hat:'crown',sad:true},
+  gaozong:{name:'宋高宗',skin:'#ffe0c2',robe:'#e3b11c',hat:'crown'},
+  yuefei:{name:'岳飛',skin:'#f0c093',robe:'#9b2b25',hat:'helmet',prop:'flag'},
+};
+
+function charSVG(id){
+  const c=C[id];
+  if(c.yin) return `<svg viewBox="0 0 200 200">
+    <defs><linearGradient id="sg${id}" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="#ffffff"/><stop offset=".5" stop-color="#cfd6de"/><stop offset="1" stop-color="#8e99a6"/></linearGradient></defs>
+    <ellipse cx="100" cy="185" rx="55" ry="8" fill="rgba(0,0,0,.18)"/>
+    <path d="M18 92 Q8 70 30 74 Q60 82 100 82 Q140 82 170 74 Q192 70 182 92 Q170 150 100 152 Q30 150 18 92Z" fill="url(#sg${id})" stroke="#4b5560" stroke-width="5"/>
+    <ellipse cx="100" cy="76" rx="44" ry="34" fill="url(#sg${id})" stroke="#4b5560" stroke-width="5"/>
+    <path d="M70 60 Q80 48 95 50" stroke="#fff" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <g class="eyes" style="transform-origin:100px 108px"><ellipse cx="78" cy="108" rx="7" ry="9" fill="#222"/><ellipse cx="122" cy="108" rx="7" ry="9" fill="#222"/><circle cx="80" cy="105" r="2.5" fill="#fff"/><circle cx="124" cy="105" r="2.5" fill="#fff"/></g>
+    <circle cx="62" cy="122" r="8" fill="#ff9fb0" opacity=".7"/><circle cx="138" cy="122" r="8" fill="#ff9fb0" opacity=".7"/>
+    <path class="mouth-idle" d="M90 124 Q100 134 110 124" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <ellipse class="mouth-talk" cx="100" cy="128" rx="9" ry="8" fill="#7a2230" style="transform-origin:100px 128px"/>
+    <path d="M20 100 Q2 108 8 124" stroke="#4b5560" stroke-width="6" fill="none" stroke-linecap="round"/>
+    <path d="M180 100 Q198 92 192 76" stroke="#4b5560" stroke-width="6" fill="none" stroke-linecap="round"/>
+  </svg>`;
+  const s=c.skin,r=c.robe;
+  let back='',front='',prop='';
+  switch(c.hat){
+    case 'student': front=`<path d="M45 108 Q44 50 100 48 Q158 50 155 108 Q150 80 128 76 Q110 92 70 84 Q52 90 45 108Z" fill="#2b2420"/>`;break;
+    case 'wing': front=`<rect x="-38" y="66" width="276" height="8" rx="4" fill="#1d1d1d"/><path d="M58 80 Q58 30 100 30 Q142 30 142 80Z" fill="#1d1d1d"/><rect x="56" y="72" width="88" height="14" rx="6" fill="#1d1d1d"/>`;break;
+    case 'crown': front=`<path d="M52 90 Q50 52 100 50 Q150 52 148 90Z" fill="#1d1d1d"/><rect x="48" y="80" width="104" height="12" rx="5" fill="${'#d9a521'}"/><path d="M70 50 L80 18 L100 40 L120 18 L130 50Z" fill="#d9a521" stroke="#8a6410" stroke-width="3"/><circle cx="100" cy="32" r="6" fill="#c0392b"/>`;break;
+    case 'khitan': front=`<path d="M48 96 Q50 50 100 46 Q150 50 152 96 Q130 70 100 70 Q70 70 48 96Z" fill="#7a4e2a"/><rect x="44" y="84" width="112" height="16" rx="8" fill="#f1e6d0"/><path d="M50 110 Q36 140 46 170" stroke="#2b2420" stroke-width="9" fill="none" stroke-linecap="round"/><path d="M150 110 Q164 140 154 170" stroke="#2b2420" stroke-width="9" fill="none" stroke-linecap="round"/>`;break;
+    case 'fur': front=`<path d="M46 96 Q46 36 100 36 Q154 36 154 96Z" fill="#4a3a2c"/><path d="M40 92 Q100 70 160 92 L160 106 Q100 86 40 106Z" fill="#e8e1d4"/><circle cx="100" cy="34" r="10" fill="#e8e1d4"/>`;break;
+    case 'helmet': front=`<path d="M46 100 Q44 44 100 42 Q156 44 154 100 L140 100 Q138 70 100 68 Q62 70 60 100Z" fill="#9aa3ad" stroke="#4b5560" stroke-width="4"/><rect x="94" y="20" width="12" height="26" fill="#9aa3ad"/><path d="M100 22 Q80 0 92 -6 Q100 6 108 -6 Q120 0 100 22Z" fill="#c0392b"/>`;break;
+  }
+  if(c.prop==='cup') prop=`<g transform="translate(150,200)"><path d="M0 0 L26 0 L22 22 L4 22Z" fill="#d9a521" stroke="#6b4a10" stroke-width="3"/><rect x="9" y="22" width="8" height="10" fill="#d9a521"/></g>`;
+  if(c.prop==='brush') prop=`<g transform="translate(152,150) rotate(20)"><rect x="0" y="0" width="8" height="70" fill="#6b3f1d"/><path d="M-2 70 L10 70 L4 92Z" fill="#222"/></g>`;
+  if(c.prop==='scroll') prop=`<g transform="translate(146,196)"><rect x="0" y="0" width="40" height="26" fill="#f3e6c4" stroke="#6b4a10" stroke-width="3"/><rect x="-4" y="-3" width="6" height="32" rx="3" fill="#8a5a2b"/><rect x="38" y="-3" width="6" height="32" rx="3" fill="#8a5a2b"/></g>`;
+  if(c.prop==='flag') prop=`<g transform="translate(170,40)"><rect x="0" y="0" width="6" height="250" fill="#5a3a1a"/><g class="flagwave"><path d="M6 6 L76 14 L70 50 L76 86 L6 80Z" fill="#c0392b" stroke="#5a1a14" stroke-width="3"/><text x="38" y="62" font-size="38" font-weight="900" fill="#fff" text-anchor="middle" font-family="Noto Serif CJK TC,serif">岳</text></g></g>`;
+  const beard = c.beard?`<path d="M78 142 Q100 176 122 142 Q112 160 100 160 Q88 160 78 142Z" fill="#2b2420"/>`:'';
+  const brow = c.sad?`<path d="M68 96 L88 102 M132 96 L112 102" stroke="#2b2420" stroke-width="4" stroke-linecap="round"/>`:'';
+  const tear = c.sad?`<path d="M76 128 Q72 138 76 142 Q80 138 76 128Z" fill="#7fc3ff"/>`:'';
+  return `<svg viewBox="0 0 200 300">
+    <ellipse cx="100" cy="292" rx="70" ry="9" fill="rgba(0,0,0,.2)"/>
+    ${back}
+    <path d="M62 168 L138 168 L166 290 L34 290Z" fill="${r}" stroke="#2a1f17" stroke-width="4" stroke-linejoin="round"/>
+    <path d="M100 168 L84 210 M100 168 L116 210" stroke="#2a1f17" stroke-width="3" fill="none"/>
+    <rect x="52" y="226" width="96" height="12" rx="5" fill="rgba(0,0,0,.28)"/>
+    <ellipse cx="50" cy="214" rx="16" ry="34" fill="${r}" stroke="#2a1f17" stroke-width="4" transform="rotate(14 50 214)"/>
+    <ellipse cx="150" cy="214" rx="16" ry="34" fill="${r}" stroke="#2a1f17" stroke-width="4" transform="rotate(-14 150 214)"/>
+    <circle cx="44" cy="244" r="10" fill="${s}" stroke="#2a1f17" stroke-width="3"/>
+    <circle cx="156" cy="244" r="10" fill="${s}" stroke="#2a1f17" stroke-width="3"/>
+    <circle cx="100" cy="112" r="56" fill="${s}" stroke="#2a1f17" stroke-width="4"/>
+    ${front}
+    ${brow}
+    <g class="eyes"><ellipse cx="80" cy="116" rx="6.5" ry="8.5" fill="#222"/><ellipse cx="120" cy="116" rx="6.5" ry="8.5" fill="#222"/><circle cx="82" cy="113" r="2.4" fill="#fff"/><circle cx="122" cy="113" r="2.4" fill="#fff"/></g>
+    <circle cx="66" cy="132" r="8" fill="#ff9f9f" opacity=".55"/><circle cx="134" cy="132" r="8" fill="#ff9f9f" opacity=".55"/>
+    ${tear}
+    <path class="mouth-idle" d="${c.sad?'M90 142 Q100 134 110 142':'M90 136 Q100 146 110 136'}" stroke="#222" stroke-width="4" fill="none" stroke-linecap="round"/>
+    <ellipse class="mouth-talk" cx="100" cy="140" rx="8" ry="7" fill="#7a2230" style="transform-origin:100px 140px"/>
+    ${beard}
+    ${prop}
+  </svg>`;
+}
+
+/* ================= 背景 ================= */
+const SKY=(a,b)=>`<defs><linearGradient id="sky" x1="0" y1="0" x2="0" y2="1"><stop offset="0" stop-color="${a}"/><stop offset="1" stop-color="${b}"/></linearGradient></defs><rect width="1280" height="720" fill="url(#sky)"/>`;
+const clouds=`<g class="drift" opacity=".85"><ellipse cx="0" cy="110" rx="70" ry="24" fill="#fff"/><ellipse cx="50" cy="96" rx="50" ry="26" fill="#fff"/></g><g class="drift" style="animation-delay:-11s" opacity=".7"><ellipse cx="0" cy="180" rx="60" ry="20" fill="#fff"/><ellipse cx="40" cy="168" rx="40" ry="22" fill="#fff"/></g>`;
+const BG={
+ room:(morning)=>`<svg viewBox="0 0 1280 720">${SKY(morning?'#ffe9c7':'#2b2f4f',morning?'#f7d29a':'#403a5c')}
+   <rect x="0" y="470" width="1280" height="250" fill="${morning?'#c79b6d':'#5a4636'}"/>
+   <rect x="820" y="80" width="300" height="240" rx="10" fill="${morning?'#bfe4ff':'#141a33'}" stroke="#2a1f17" stroke-width="10"/>
+   <line x1="970" y1="80" x2="970" y2="320" stroke="#2a1f17" stroke-width="8"/><line x1="820" y1="200" x2="1120" y2="200" stroke="#2a1f17" stroke-width="8"/>
+   ${morning?'<circle cx="900" cy="150" r="34" fill="#ffd34d"/>':'<circle cx="1060" cy="140" r="30" fill="#fff6c9"/><circle cx="1072" cy="132" r="26" fill="#141a33"/><circle class="twinkle" cx="870" cy="120" r="4" fill="#fff"/><circle class="twinkle" style="animation-delay:-1s" cx="920" cy="260" r="3" fill="#fff"/><circle class="twinkle" style="animation-delay:-.5s" cx="1030" cy="250" r="4" fill="#fff"/>'}
+   <rect x="120" y="120" width="220" height="300" fill="#8a5a3b" stroke="#2a1f17" stroke-width="6"/>
+   ${[0,1,2].map(i=>`<rect x="130" y="${140+i*95}" width="200" height="8" fill="#2a1f17"/>`).join('')}
+   ${[0,1,2,3,4,5,6].map(i=>`<rect x="${140+i*26}" y="148" width="20" height="70" fill="${['#c0392b','#2f7d6d','#d9a521','#3d6fb6','#8e44ad','#e67e22','#16a085'][i]}"/>`).join('')}
+   <rect x="380" y="400" width="420" height="24" fill="#6b4a2f" stroke="#2a1f17" stroke-width="5"/>
+   <rect x="400" y="424" width="20" height="120" fill="#6b4a2f"/><rect x="760" y="424" width="20" height="120" fill="#6b4a2f"/>
+   <path d="M470 400 L560 384 L650 400 L560 410Z" fill="#fff" stroke="#2a1f17" stroke-width="4"/><text x="560" y="402" font-size="14" text-anchor="middle" font-weight="700">社會 歷史</text>
+   ${morning?'':'<path d="M700 400 L720 320 L760 320 L740 400Z" fill="#ffe08a" opacity=".5"/><rect x="725" y="300" width="40" height="22" fill="#d9a521" stroke="#2a1f17" stroke-width="4"/>'}
+ </svg>`,
+ steppe:()=>`<svg viewBox="0 0 1280 720">${SKY('#8fd0f3','#e6f6ff')}${clouds}
+   <path d="M0 360 Q200 300 420 350 Q700 280 980 340 Q1150 300 1280 330 L1280 720 L0 720Z" fill="#9fcf6e"/>
+   <path d="M0 430 Q300 390 640 430 Q960 380 1280 420 L1280 720 L0 720Z" fill="#7dbb54"/>
+   ${[[180,360],[330,350],[1060,345]].map(([x,y])=>`<g transform="translate(${x},${y})"><path d="M-50 40 Q0 -30 50 40Z" fill="#f4ead2" stroke="#2a1f17" stroke-width="4"/><rect x="-50" y="38" width="100" height="40" fill="#f4ead2" stroke="#2a1f17" stroke-width="4"/><rect x="-12" y="48" width="24" height="30" fill="#8a5a2b"/></g>`).join('')}
+   <g transform="translate(1180,250)"><rect x="0" y="0" width="5" height="120" fill="#5a3a1a"/><path class="flagwave" d="M5 4 L70 14 L64 34 L70 54 L5 46Z" fill="#6d4c8a"/><text x="34" y="38" font-size="24" fill="#fff" text-anchor="middle" font-weight="900">遼</text></g>
+ </svg>`,
+ palace:()=>`<svg viewBox="0 0 1280 720">${SKY('#ffd9a0','#fff1d6')}
+   <path d="M120 170 L640 70 L1160 170 L1100 200 L180 200Z" fill="#d9a521" stroke="#6b4a10" stroke-width="6"/>
+   <rect x="180" y="200" width="920" height="40" fill="#8a2e2e"/>
+   ${[230,410,590,690,870,1050].map(x=>`<rect x="${x-18}" y="240" width="36" height="300" fill="#b8322a" stroke="#5a1a14" stroke-width="4"/>`).join('')}
+   <rect x="0" y="520" width="1280" height="200" fill="#c9b08a"/>
+   ${[0,1,2,3,4,5,6,7].map(i=>`<line x1="${i*180}" y1="520" x2="${i*180-120}" y2="720" stroke="#a88f68" stroke-width="3"/>`).join('')}
+   <rect x="520" y="140" width="240" height="44" rx="6" fill="#1d3a5a" stroke="#d9a521" stroke-width="4"/><text x="640" y="172" font-size="28" fill="#f3d36b" text-anchor="middle" font-weight="900" font-family="Noto Serif CJK TC,serif">汴京 皇宮</text>
+ </svg>`,
+ chenqiao:()=>`<svg viewBox="0 0 1280 720">${SKY('#ffb36b','#ffe2b8')}
+   <circle cx="1000" cy="200" r="70" fill="#ffef9a" opacity=".9"/>
+   <path d="M0 400 Q320 350 640 390 Q960 340 1280 380 L1280 720 L0 720Z" fill="#c69a5b"/>
+   ${[150,330,950,1120].map(x=>`<g transform="translate(${x},330)"><path d="M-60 70 L0 0 L60 70Z" fill="#e9d9b5" stroke="#2a1f17" stroke-width="4"/><path d="M0 0 L0 70" stroke="#2a1f17" stroke-width="3"/></g>`).join('')}
+   <rect x="520" y="260" width="240" height="44" rx="6" fill="#5a3a1a" stroke="#2a1f17" stroke-width="4"/><text x="640" y="292" font-size="28" fill="#fff" text-anchor="middle" font-weight="900" font-family="Noto Serif CJK TC,serif">陳橋驛</text>
+ </svg>`,
+ feast:()=>`<svg viewBox="0 0 1280 720">${SKY('#5a2a1e','#8a3d2a')}
+   ${[160,1120].map(x=>`<rect x="${x-20}" y="0" width="40" height="560" fill="#b8322a" stroke="#3a120c" stroke-width="4"/>`).join('')}
+   ${[300,640,980].map(x=>`<g transform="translate(${x},90)"><rect x="-4" y="-90" width="8" height="70" fill="#3a120c"/><ellipse cx="0" cy="0" rx="40" ry="52" fill="#e74c3c" stroke="#3a120c" stroke-width="4"/><rect x="-30" y="-10" width="60" height="6" fill="#d9a521"/><path d="M-6 52 L6 52 L0 80Z" fill="#d9a521"/></g>`).join('')}
+   <rect x="0" y="500" width="1280" height="220" fill="#6b3a24"/>
+   <rect x="200" y="470" width="880" height="40" rx="8" fill="#8a5a2b" stroke="#2a1f17" stroke-width="5"/>
+   ${[300,460,820,980].map(x=>`<g transform="translate(${x},440)"><path d="M0 0 L30 0 L26 24 L4 24Z" fill="#d9a521" stroke="#6b4a10" stroke-width="3"/></g>`).join('')}
+   <ellipse cx="640" cy="458" rx="70" ry="16" fill="#f3e6c4" stroke="#6b4a10" stroke-width="3"/>
+   <text x="640" y="56" font-size="30" fill="#f3d36b" text-anchor="middle" font-weight="900" font-family="Noto Serif CJK TC,serif">宮廷宴會</text>
+ </svg>`,
+ map:()=>`<svg viewBox="0 0 1280 720">
+   <rect width="1280" height="720" fill="#a9d4e8"/>
+   <g class="wave" opacity=".5">${[0,1,2,3].map(i=>`<path d="M1000 ${420+i*40} q20 -10 40 0 t40 0 t40 0 t40 0 t40 0 t40 0 t40 0" stroke="#fff" stroke-width="3" fill="none"/>`).join('')}</g>
+   <polygon id="r-liao" class="region" points="230,70 1060,50 1120,210 960,262 820,252 700,272 560,262 450,232 300,205" fill="#c9a0dc" stroke="#2a1f17" stroke-width="4"/>
+   <polygon id="r-yanyun" class="region" points="660,222 820,206 846,252 700,272 640,258" fill="#e88aa0" stroke="#2a1f17" stroke-width="4" stroke-dasharray="10 6"/>
+   <polygon id="r-goryeo" class="region" points="1000,262 1070,250 1100,340 1060,400 1010,350" fill="#9ed6a8" stroke="#2a1f17" stroke-width="4"/>
+   <polygon id="r-xixia" class="region" points="110,215 450,232 520,272 480,370 300,392 120,340" fill="#f5c26b" stroke="#2a1f17" stroke-width="4"/>
+   <polygon id="r-song" class="region" points="300,392 480,370 520,272 700,272 846,252 960,262 975,330 945,440 890,540 320,540" fill="#f2e2a4" stroke="#2a1f17" stroke-width="4"/>
+   <path d="M560 262 L700 272 L846 252 L960 262" stroke="#7a4a2a" stroke-width="7" fill="none" stroke-dasharray="4 8"/>
+   <g font-family="Noto Serif CJK TC,serif" font-weight="900" text-anchor="middle" fill="#2a1f17">
+     <text x="640" y="160" font-size="56">遼</text><text x="640" y="196" font-size="22">（契丹族）</text>
+     <text x="300" y="300" font-size="46">西夏</text><text x="300" y="332" font-size="20">（黨項族）</text>
+     <text x="1050" y="320" font-size="26">高麗</text>
+     <text x="640" y="470" font-size="56">北宋</text>
+     <text x="745" y="246" font-size="18">燕雲十六州</text>
+     <text x="1160" y="560" font-size="26" fill="#3a6d8a">海</text>
+   </g>
+   <circle cx="720" cy="372" r="10" fill="#c0392b" stroke="#fff" stroke-width="3"/><text x="738" y="380" font-size="22" font-weight="800">汴京（開封）</text>
+   <circle cx="742" cy="322" r="7" fill="#2a1f17"/><text x="756" y="328" font-size="18" font-weight="700">澶州</text>
+   <text x="40" y="60" font-size="22" font-weight="800" fill="#2a1f17">北宋時期形勢（示意圖）</text>
+ </svg>`,
+ river:()=>`<svg viewBox="0 0 1280 720">${SKY('#bcd8e8','#eef6f9')}${clouds}
+   <path d="M0 330 L1280 300 L1280 720 L0 720Z" fill="#c9b27c"/>
+   <path d="M0 400 Q300 370 640 410 Q960 440 1280 400 L1280 470 Q960 510 640 480 Q300 440 0 470Z" fill="#d8a85a"/>
+   <g class="wave" opacity=".6">${[0,1,2,3,4,5].map(i=>`<path d="M${i*230} 440 q20 -8 40 0 t40 0" stroke="#fff3c9" stroke-width="3" fill="none"/>`).join('')}</g>
+   <text x="80" y="460" font-size="24" font-weight="800" fill="#6b4a10">黃河</text>
+   <g transform="translate(470,170)"><rect x="0" y="60" width="340" height="120" fill="#a59a88" stroke="#2a1f17" stroke-width="5"/>${[0,1,2,3,4,5,6,7].map(i=>`<rect x="${i*44}" y="44" width="28" height="20" fill="#a59a88" stroke="#2a1f17" stroke-width="4"/>`).join('')}<path d="M130 180 L130 120 Q170 90 210 120 L210 180Z" fill="#3a2a20"/><path d="M110 60 L170 20 L230 60Z" fill="#8a2e2e" stroke="#2a1f17" stroke-width="4"/><text x="170" y="104" font-size="26" text-anchor="middle" font-weight="900" fill="#fff" font-family="Noto Serif CJK TC,serif">澶州</text></g>
+   ${[80,200,1080,1200].map(x=>`<g transform="translate(${x},270)"><path d="M-50 60 L0 0 L50 60Z" fill="#efe3c6" stroke="#2a1f17" stroke-width="4"/></g>`).join('')}
+   <g transform="translate(1050,170)"><rect x="0" y="0" width="5" height="110" fill="#5a3a1a"/><path class="flagwave" d="M5 4 L66 12 L60 32 L66 52 L5 44Z" fill="#6d4c8a"/><text x="32" y="36" font-size="22" fill="#fff" text-anchor="middle" font-weight="900">遼</text></g>
+   <g transform="translate(160,170)"><rect x="0" y="0" width="5" height="110" fill="#5a3a1a"/><path class="flagwave" d="M5 4 L66 12 L60 32 L66 52 L5 44Z" fill="#c0392b"/><text x="32" y="36" font-size="22" fill="#fff" text-anchor="middle" font-weight="900">宋</text></g>
+ </svg>`,
+ snow:()=>`<svg viewBox="0 0 1280 720">${SKY('#9fb7cc','#e4edf5')}
+   <path d="M0 300 L180 140 L320 280 L480 120 L660 300 L820 160 L1000 290 L1150 150 L1280 260 L1280 720 L0 720Z" fill="#6f8aa3"/>
+   <path d="M180 140 L140 176 L220 176Z M480 120 L436 160 L524 160Z M820 160 L780 196 L860 196Z M1150 150 L1110 186 L1190 186Z" fill="#fff"/>
+   <path d="M0 420 Q320 380 640 420 Q960 390 1280 420 L1280 720 L0 720Z" fill="#f4f8fb"/>
+   ${[100,260,1000,1160,1240].map((x,i)=>`<g transform="translate(${x},${330+i%2*20})"><rect x="-6" y="70" width="12" height="40" fill="#5a3a1a"/><path d="M0 0 L-40 80 L40 80Z" fill="#2f5d50"/><path d="M0 0 L-20 40 L20 40Z" fill="#fff" opacity=".8"/></g>`).join('')}
+   ${Array.from({length:40},(_,i)=>`<circle class="snow" style="animation-delay:${-(i*0.37)%6}s;animation-duration:${4+(i%5)}s" cx="${(i*97)%1280}" cy="0" r="${2+i%3}" fill="#fff"/>`).join('')}
+   <g transform="translate(1140,250)"><rect x="0" y="0" width="5" height="120" fill="#5a3a1a"/><path class="flagwave" d="M5 4 L70 14 L64 34 L70 54 L5 46Z" fill="#2f5d50"/><text x="34" y="38" font-size="24" fill="#fff" text-anchor="middle" font-weight="900">金</text></g>
+ </svg>`,
+ fire:()=>`<svg viewBox="0 0 1280 720">${SKY('#3a0f0a','#c2401c')}
+   ${[120,380,700,960,1180].map((x,i)=>`<g transform="translate(${x},${300})"><path class="flick" style="animation-delay:-${i*0.13}s" d="M-40 120 Q-50 40 0 -40 Q10 30 30 10 Q60 70 40 120Z" fill="#ff8a1e" opacity=".9"/><path class="flick" style="animation-delay:-${i*0.21}s" d="M-20 120 Q-22 70 0 30 Q20 70 20 120Z" fill="#ffd34d"/></g>`).join('')}
+   <rect x="0" y="380" width="1280" height="160" fill="#3b2a24" stroke="#000" stroke-width="5"/>
+   ${Array.from({length:24},(_,i)=>`<rect x="${i*54}" y="360" width="34" height="24" fill="#3b2a24"/>`).join('')}
+   <path d="M560 540 L560 450 Q640 400 720 450 L720 540Z" fill="#120806"/>
+   <text x="640" y="430" font-size="30" text-anchor="middle" font-weight="900" fill="#ffcf9a" font-family="Noto Serif CJK TC,serif">汴京</text>
+   <rect x="0" y="540" width="1280" height="180" fill="#2a1a14"/>
+ </svg>`,
+ lake:()=>`<svg viewBox="0 0 1280 720">${SKY('#bfe3e8','#f3fbfb')}${clouds}
+   <path d="M0 330 Q200 250 380 320 Q560 230 760 310 Q980 240 1280 310 L1280 400 L0 400Z" fill="#8fb9a6"/>
+   <g transform="translate(980,170)"><rect x="-20" y="40" width="40" height="160" fill="#c45a3a"/>${[0,1,2,3,4].map(i=>`<path d="M${-46+i*4} ${50+i*36} L0 ${30+i*36} L${46-i*4} ${50+i*36}Z" fill="#3a2a20"/>`).join('')}<path d="M0 0 L0 30" stroke="#3a2a20" stroke-width="5"/></g>
+   <rect x="0" y="390" width="1280" height="330" fill="#7fc0d4"/>
+   <g class="wave" opacity=".7">${[0,1,2,3,4].map(i=>`<path d="M${80+i*250} ${430+i%2*30} q20 -8 40 0 t40 0 t40 0" stroke="#fff" stroke-width="3" fill="none"/>`).join('')}</g>
+   <path d="M200 380 Q420 340 640 380" stroke="#e8e1d4" stroke-width="12" fill="none"/>
+   <text x="200" y="200" font-size="34" font-weight="900" fill="#2a4a3a" font-family="Noto Serif CJK TC,serif">臨安（杭州）</text>
+ </svg>`,
+ battle:()=>`<svg viewBox="0 0 1280 720">${SKY('#d9c7a4','#f5ead3')}
+   <path d="M0 380 Q300 330 640 370 Q980 330 1280 360 L1280 720 L0 720Z" fill="#b59a66"/>
+   ${Array.from({length:9},(_,i)=>`<g transform="translate(${60+i*140},${270+(i%2)*30})"><rect x="0" y="0" width="5" height="110" fill="#5a3a1a"/><path class="flagwave" style="animation-delay:-${i*.2}s" d="M5 4 L56 12 L50 30 L56 48 L5 40Z" fill="#c0392b"/><text x="28" y="34" font-size="20" fill="#fff" text-anchor="middle" font-weight="900">岳</text></g>`).join('')}
+   <text x="640" y="110" font-size="40" text-anchor="middle" font-weight="900" fill="#7a2a1a" font-family="Noto Serif CJK TC,serif">岳家軍</text>
+ </svg>`,
+ black:()=>`<svg viewBox="0 0 1280 720"><rect width="1280" height="720" fill="#1b1411"/></svg>`,
+};
+
+/* ================= 劇本 ================= */
+const S=[
+{ ch:'前言', stop:'序幕', title:'時空帳本開啟', yr:'西元 10～12 世紀', bg:'room',
+  cast:[['xiaoan',2]],
+  lines:[
+   {w:'',t:'星期五晚上，國二的林小安盯著社會課本上的「九宮格」，眼皮越來越重……'},
+   {w:'xiaoan',t:'宋、遼、金、西夏……這麼多國家，到底誰打誰啊？呼……zzz'},
+   {w:'yin',t:'叮！叫我<em>銀兩君</em>！我是宋朝送給遼國的「歲幣」，在歷史裡跑過好幾個國家喔！',cast:[['xiaoan',1],['yin',3]]},
+   {w:'xiaoan',t:'會、會說話的銀子？！我一定是在做夢……'},
+   {w:'yin',t:'西元10到12世紀，不是只有一個王朝，而是<em>多民族、多國家</em>同時存在的時代。'},
+   {w:'yin',t:'有競爭、有合作，也有打不完的仗。走吧，打開我的時空帳本！'},
+  ],
+  card:{t:'時代定位',items:['時間：西元<b>10～12世紀</b>','唐末藩鎮 → 五代十國 → 宋','宋同時面對強大鄰國：<b>多民族多國家</b>的時代']},
+  quiz:null },
+{ ch:'五代與遼', stop:'第一站', title:'五代與遼的建立', yr:'北方大草原・10 世紀', bg:'steppe',
+  cast:[['yin',1],['xiaoan',0]],
+  lines:[
+   {w:'',t:'唐朝末年藩鎮割據，接著中原陷入分裂的「五代十國」。'},
+   {w:'yin',t:'畫重點：<em>五代十國，就是唐末藩鎮割據的延續！</em>'},
+   {w:'abaoji',t:'我是契丹族的<em>耶律阿保機</em>！我統一了各部落，建立國家。',cast:[['xiaoan',0],['yin',1],['abaoji',3]]},
+   {w:'',t:'後來，他的兒子<em>耶律德光</em>趁中原五代混亂，取得了「燕雲十六州」。',cast:[['xiaoan',0],['yin',1],['deguang',3]]},
+   {w:'yin',t:'燕雲十六州在長城一帶，是擋住北方騎兵的<em>軍事要地</em>。少了它，騎兵就能直衝中原平原！'},
+   {w:'deguang',t:'從此國號定為<em>「遼」</em>！女真、西夏、高麗，都要向我們稱臣！'},
+   {w:'xiaoan',t:'哇，遼國一開始就超強的……'},
+  ],
+  card:{t:'五代與遼的建立',items:['五代十國是<b>唐末藩鎮割據</b>的延續','契丹族<b>耶律阿保機</b>建國，<b>耶律德光</b>時取得<b>燕雲十六州</b>（軍事要地）','國號<b>「遼」</b>，女真、西夏、高麗等向遼稱臣']},
+  quiz:{q:'為什麼「燕雲十六州」對中原王朝這麼重要？',o:['那裡盛產絲綢和茶葉','它是軍事要地，可以阻擋北方騎兵','它是遼國的首都','那裡有很多海港'],a:1,e:'燕雲十六州位在長城一帶，是中原北方的天然屏障。被遼取得後，中原北邊幾乎無險可守。'} },
+{ ch:'北宋特質', stop:'第二站', title:'北宋的建立與特質', yr:'西元 960 年', bg:'chenqiao',
+  cast:[['soldier',0],['zhao',2]],
+  lines:[
+   {w:'',t:'西元960年，後周大將趙匡胤帶兵出征，走到了陳橋驛……'},
+   {w:'soldier',t:'將軍！大家要擁立您當皇帝！黃袍給您披上——這就是<em>「陳橋兵變」</em>！'},
+   {w:'zhao',t:'好吧……那就由我當皇帝，國號<em>「宋」</em>，我就是<em>宋太祖</em>！'},
+   {w:'',t:'宋朝的首都，定在<em>汴京</em>，也就是今天的河南開封。',bg:'palace',cast:[['xiaoan',0],['yin',1],['zhao',3]]},
+   {w:'zhao',t:'各位將軍，乾了這杯……把兵權交出來，回家享福吧！',bg:'feast',cast:[['general',0],['zhao',2],['general',4,true]]},
+   {w:'yin',t:'這就是<em>「杯酒釋兵權」</em>！宋太祖怕唐末藩鎮的悲劇重演，把兵權收回中央。',bg:'palace',cast:[['xiaoan',0],['yin',1],['zhao',3]]},
+   {w:'yin',t:'宋朝重用讀書人，形成<em>文人政治</em>、<em>中央強、地方弱</em>。政治穩定了，但國防軍力也比較弱。'},
+   {w:'xiaoan',t:'原來宋朝打仗老是吃虧，是從這裡埋下伏筆的！'},
+  ],
+  card:{t:'北宋的特質',items:['建國者：宋太祖<b>趙匡胤</b>','<b>陳橋兵變</b>（黃袍加身）、<b>杯酒釋兵權</b>','首都：<b>汴京</b>（河南開封）','特質：<b>文人政治</b>、<b>中央強地方弱</b>']},
+  quiz:{q:'宋太祖「杯酒釋兵權」的主要目的是什麼？',o:['請將軍們吃飯慶功','避免武將擁兵自重，加強中央集權','籌措對遼作戰的軍費','和遼國結為同盟'],a:1,e:'宋太祖記取唐末藩鎮割據的教訓，收回武將兵權，形成「中央強、地方弱」。'} },
+{ ch:'宋的鄰國', stop:'第三站', title:'宋的鄰國', yr:'看地圖！', bg:'map',
+  cast:[['yin',5]],
+  lines:[
+   {w:'yin',t:'來看地圖！北邊是契丹族的<em>「遼」</em>，國土非常遼闊。',hl:'liao'},
+   {w:'yin',t:'西北是黨項族建立的<em>「西夏」</em>。',hl:'xixia'},
+   {w:'yin',t:'東北還有<em>高麗</em>。宋朝被一群強鄰包圍，壓力山大！',hl:'goryeo'},
+   {w:'yin',t:'而且，<em>燕雲十六州</em>在遼國手上，宋朝北邊幾乎沒有屏障……',hl:'yanyun'},
+   {w:'yin',t:'看看首都汴京，離邊境這麼近！宋遼之間的大戰，一觸即發！',hl:'song'},
+  ],
+  card:{t:'宋的鄰國',items:['北方：<b>遼</b>（契丹族）','西北：<b>西夏</b>（黨項族）','東北：<b>高麗</b>；後來又崛起女真族的<b>金</b>','燕雲十六州在遼手中，宋的北方缺少屏障']},
+  quiz:null },
+{ ch:'澶淵之盟', stop:'第四站', title:'澶淵之盟', yr:'西元 1004 年・宋真宗', bg:'river',
+  cast:[['zhenzong',1],['kouzhun',3]],
+  lines:[
+   {w:'',t:'宋真宗在位時，遼國大軍大舉南侵，一路打到黃河邊的澶州！'},
+   {w:'zhenzong',t:'好、好可怕……要不要乾脆遷都逃走啊？'},
+   {w:'kouzhun',t:'陛下萬萬不可！請您<em>御駕親征</em>，鼓舞士氣！'},
+   {w:'',t:'宰相<em>寇準</em>力主真宗親征，宋軍士氣大振。最後雙方談和，訂下<em>「澶淵之盟」</em>。'},
+   {w:'yin',t:'盟約第一條：宋遼<em>平等</em>，約為<em>「兄弟之邦」</em>。第二條：燕雲十六州<em>沒有拿回來</em>。',cast:[['zhenzong',0],['kouzhun',1],['yin',3],['xiaoan',4,true]]},
+   {w:'yin',t:'第三條：宋每年給遼<em>「歲幣」</em>——銀和絹。我就是這樣被送到遼國的！'},
+   {w:'xiaoan',t:'每年都要送錢？宋朝也太虧了吧！'},
+   {w:'yin',t:'來算帳：歲幣只占宋朝收入的一小部分，比打仗的軍費便宜太多；邊境開放貿易，宋朝還能賺回來。'},
+   {w:'yin',t:'換來的是兩國<em>一百多年的和平</em>！只是燕雲沒拿回，國防仍然受到威脅。'},
+  ],
+  card:{t:'澶淵之盟',items:['<b>宋真宗</b>時遼大舉南侵，宰相<b>寇準</b>力主親征','宋遼<b>平等</b>，約為<b>兄弟之邦</b>','宋每年給遼<b>歲幣</b>：銀、絹','未取回燕雲十六州，國防仍受威脅','維持兩國<b>一百多年的和平</b>']},
+  quiz:{q:'下列哪一項「不是」澶淵之盟的內容或結果？',o:['宋遼約為兄弟之邦','宋每年給遼歲幣','宋取回燕雲十六州','兩國維持一百多年和平'],a:2,e:'澶淵之盟並沒有讓宋取回燕雲十六州，所以宋的北方國防一直受到威脅。'} },
+{ ch:'聯金滅遼', stop:'第五站', title:'聯金滅遼', yr:'北宋中期・東北白山黑水', bg:'snow',
+  cast:[['aguda',3]],
+  lines:[
+   {w:'',t:'一百多年後，東北的白山黑水間，女真族崛起了。'},
+   {w:'aguda',t:'我是女真族的<em>完顏阿骨打</em>！遼國欺壓我們太久了，今天建國，國號<em>「金」</em>！'},
+   {w:'',t:'金國一路進攻遼國。這時候，宋朝的皇帝是<em>宋徽宗</em>。',bg:'palace',cast:[['xiaoan',0],['yin',1],['huizong',3]]},
+   {w:'huizong',t:'朕的書法、畫畫都是一流！聽說金很強？那就<em>和金結盟</em>，一起夾擊遼國，拿回燕雲十六州！'},
+   {w:'yin',t:'約定是：滅遼之後宋取回燕雲，原本給遼的<em>歲幣改給金</em>。唉，我要換老闆了……'},
+   {w:'',t:'結果金軍勢如破竹，宋軍卻打得很狼狽。',bg:'snow',cast:[['huizong',1],['aguda',3]]},
+   {w:'aguda',t:'原來宋朝這麼弱啊……嘿嘿，中原好像也不難拿嘛！'},
+   {w:'yin',t:'遼雖然滅了，但合作過程<em>暴露了宋國力文弱</em>，反而讓金起了<em>南侵之心</em>。',cast:[['xiaoan',0],['yin',1],['aguda',3]]},
+  ],
+  card:{t:'聯金滅遼',items:['北宋中期，東北<b>女真族</b>建國，國號<b>「金」</b>，進攻遼','<b>宋徽宗</b>與金結盟：取回燕雲十六州，<b>歲幣改給金</b>','遼滅亡，但宋<b>暴露國力文弱</b>，引發金南侵之心']},
+  quiz:{q:'宋徽宗「聯金滅遼」，最後帶來什麼影響？',o:['宋從此國力強盛','暴露宋軍事弱點，引發金南侵之心','金國向宋稱臣','西夏因此滅亡'],a:1,e:'聯金滅遼的過程中，宋軍表現不佳，讓金看清宋的弱點，不久就南下攻宋。'} },
+{ ch:'靖康之禍', stop:'第六站', title:'靖康之禍', yr:'靖康二年・西元 1127 年', bg:'fire',
+  cast:[['qinzong',1],['aguda',3]],
+  lines:[
+   {w:'',t:'宋欽宗靖康二年，金軍攻破首都汴京！',fx:'shake'},
+   {w:'qinzong',t:'父皇！我們被金兵抓走了……嗚嗚……'},
+   {w:'',t:'<em>徽宗、欽宗</em>兩位皇帝被擄往北方，北宋滅亡，史稱<em>「靖康之禍」</em>。'},
+   {w:'gaozong',t:'宋室南遷，朕是<em>宋高宗</em>，後來定都<em>臨安</em>，也就是今天的杭州。這就是<em>「南宋」</em>。',bg:'lake',cast:[['xiaoan',0],['yin',1],['gaozong',3]]},
+   {w:'yuefei',t:'我是<em>岳飛</em>！一定要打回北方、收復失土！',bg:'battle',cast:[['yuefei',2],['yin',4]]},
+   {w:'',t:'岳飛帶領岳家軍屢次打敗金兵，但朝廷卻一心想和金議和……'},
+   {w:'yin',t:'最後，岳飛被以<em>「莫須有」</em>的罪名殺害。宋與金議和，形成<em>南北對峙</em>的局面。',bg:'lake',cast:[['xiaoan',0],['yin',1],['gaozong',3]]},
+   {w:'xiaoan',t:'「莫須有」，意思是「也許有吧」？就這樣定罪，太冤枉了！'},
+  ],
+  card:{t:'靖康之禍',items:['宋欽宗<b>靖康二年</b>：金攻破<b>汴京</b>，徽、欽二帝被擄，<b>北宋滅亡</b>','<b>南宋建立</b>：宋室南遷，<b>高宗</b>定都<b>臨安</b>（杭州）','岳飛以<b>「莫須有」</b>罪名被殺，宋金議和，形成<b>南北對峙</b>']},
+  quiz:{q:'造成北宋滅亡的事件是哪一個？',o:['陳橋兵變','澶淵之盟','靖康之禍','杯酒釋兵權'],a:2,e:'靖康二年金攻破汴京，徽宗、欽宗被擄，北宋滅亡，史稱「靖康之禍」。'} },
+{ ch:'結語', stop:'尾聲', title:'帳本闔上之前', yr:'想一想', bg:'room',
+  cast:[['xiaoan',1],['yin',3]],
+  lines:[
+   {w:'yin',t:'帳本翻完囉！宋朝經濟實力很強，卻一直受到鄰國武力的威脅。'},
+   {w:'yin',t:'留個問題給你：為什麼主張抗金的<em>岳飛</em>，反而不受朝廷支持？'},
+   {w:'xiaoan',t:'也許是朝廷怕打仗花錢又打不贏？還是怕武將太強，就像宋太祖杯酒釋兵權那樣？'},
+   {w:'yin',t:'很會聯想喔！推薦你讀讀岳飛的〈滿江紅〉，感受他面對局勢的不甘心。'},
+   {w:'',t:'鬧鐘響了。小安醒來，發現課本上那張九宮格……好像全都記住了！',bg:'room2',cast:[['xiaoan',2]]},
+  ],
+  card:{t:'想一想',items:['宋經濟實力強，卻受鄰國<b>武力威脅</b>','為何主張抗金的<b>岳飛</b>不受朝廷支持？','延伸閱讀：岳飛〈<b>滿江紅</b>〉']},
+  quiz:null },
+];
+
+/* ================= 引擎 ================= */
+const VIDEO = new URLSearchParams(location.search).has('video');
+if(VIDEO) document.body.classList.add('video');
+const $=s=>document.querySelector(s);
+const stage=$('#stage');
+function fit(){const k=Math.min(innerWidth/1280,innerHeight/720);stage.style.transform=`scale(${k})`;}
+addEventListener('resize',fit);fit();
+
+const SLOTX=[40,290,540,800,1040,1100];
+// timeline
+const TL=[];
+S.forEach((sc,si)=>{
+  TL.push({si,type:'title'});
+  sc.lines.forEach((l,li)=>TL.push({si,type:'line',li}));
+  TL.push({si,type:'card'});
+  if(sc.quiz){TL.push({si,type:'quiz'}); if(VIDEO) TL.push({si,type:'reveal'});}
+});
+TL.push({si:S.length-1,type:'recap'});
+
+const plain=h=>h.replace(/<[^>]+>/g,'');
+function durOf(it){
+  if(it.type==='title') return 3.2;
+  if(it.type==='line') return 1.6+plain(S[it.si].lines[it.li].t).length*0.16;
+  if(it.type==='card') return 2.5+S[it.si].card.items.length*1.6;
+  if(it.type==='quiz') return 7;
+  if(it.type==='reveal') return 6.5;
+  if(it.type==='recap') return 14;
+}
+
+let cur=-1, curBg=null, curCast='', lineStart=0, typing=null, score=0, answered=0, auto=false, tts=false, music=false;
+
+function setBg(key){
+  if(key===curBg) return; curBg=key;
+  $('#bg').innerHTML = key==='room2'? BG.room(true) : BG[key]();
+}
+function setCast(cast){
+  const sig=JSON.stringify(cast); if(sig===curCast) return;
+  const old={}; document.querySelectorAll('.actor').forEach(a=>old[a.dataset.k]=a);
+  const keep=new Set();
+  cast.forEach(([id,slot,flip],i)=>{
+    const k=id+'_'+i; // allow duplicates (general x2)
+    let el=old[k];
+    if(!el){
+      el=document.createElement('div');
+      el.className='actor enter'+(C[id].yin?' yin':'');
+      el.dataset.k=k; el.dataset.id=id; el.setAttribute('data-local','');
+      el.innerHTML=`<div class="inner">${charSVG(id)}</div><div class="tag">${C[id].name}</div>`;
+      $('#actors').appendChild(el);
+    }
+    el.classList.toggle('flip',!!flip || (slot>=3 && !C[id].yin && flip!==false && id!=='xiaoan'));
+    el.style.left=SLOTX[slot]+(C[id].yin?25:0)+'px';
+    keep.add(k);
+  });
+  Object.entries(old).forEach(([k,el])=>{if(!keep.has(k)) el.remove();});
+  curCast=sig;
+}
+function castAt(si,li){
+  const sc=S[si]; let cast=sc.cast, bg=sc.bg;
+  for(let i=0;i<=li;i++){const l=sc.lines[i]; if(l.cast) cast=l.cast; if(l.bg) bg=l.bg;}
+  return {cast,bg};
+}
+function hideOverlays(){['#title','#card','#quiz','#recap','#start'].forEach(s=>$(s).classList.remove('show'));}
+function chips(si){
+  $('#topbar').innerHTML=S.map((s,i)=>`<span class="chip ${i===si?'on':i<si?'done':''}">${s.ch}</span>`).join('')+
+   `<span class="spacer"></span><button class="tbtn ${auto?'on':''}" id="bAuto">▶ 自動播放</button><button class="tbtn ${tts?'on':''}" id="bTts">🔊 朗讀</button><button class="tbtn ${music?'on':''}" id="bMus">🎵 音樂</button>`;
+  $('#bAuto').onclick=e=>{e.stopPropagation();auto=!auto;chips(si);if(auto)scheduleAuto();};
+  $('#bTts').onclick=e=>{e.stopPropagation();tts=!tts;chips(si);if(!tts)speechSynthesis.cancel();else speakCur();};
+  $('#bMus').onclick=e=>{e.stopPropagation();music=!music;chips(si);music?startMusic():stopMusic();};
+}
+
+function show(i){
+  cur=i; const it=TL[i]; const sc=S[it.si];
+  hideOverlays(); clearTimeout(autoTimer); if(!VIDEO) speechSynthesis.cancel();
+  document.querySelectorAll('[data-local]').forEach(e=>e.removeAttribute('data-local'));
+  chips(it.si);
+  const dlg=$('#dialog');
+  if(it.type==='title'){
+    const {cast,bg}=castAt(it.si,-1); setBg(sc.bg); setCast(sc.cast);
+    document.querySelectorAll('.actor').forEach(a=>a.classList.remove('speaking'));
+    const t=$('#title'); t.querySelector('.stop').textContent=sc.stop; t.querySelector('.big').textContent=sc.title; t.querySelector('.yr').textContent=sc.yr;
+    t.classList.add('show'); t.setAttribute('data-local','');
+    const f=$('#fader'); f.classList.remove('in'); void f.offsetWidth; f.classList.add('in'); f.setAttribute('data-local','');
+    dlg.style.visibility='hidden';
+    // replay entry
+    document.querySelectorAll('.actor').forEach(a=>{a.classList.remove('enter');void a.offsetWidth;a.classList.add('enter');a.setAttribute('data-local','');});
+  }
+  if(it.type==='line'){
+    dlg.style.visibility='visible';
+    const l=sc.lines[it.li]; const {cast,bg}=castAt(it.si,it.li);
+    setBg(bg); setCast(cast);
+    // map highlight
+    document.querySelectorAll('.region').forEach(r=>r.classList.remove('hl'));
+    if(l.hl){const r=document.getElementById('r-'+l.hl); if(r) r.classList.add('hl');}
+    if(l.fx==='shake'){stage.classList.remove('shake');void stage.offsetWidth;stage.classList.add('shake');stage.setAttribute('data-local','');}
+    document.querySelectorAll('.actor').forEach(a=>{
+      const sp=a.dataset.id===l.w; a.classList.toggle('speaking',sp);
+      a.classList.toggle('dim',!!l.w && !sp);
+      const tag=a.querySelector('.tag'); if(tag) tag.textContent = (l.n && sp)? l.n : C[a.dataset.id].name;
+    });
+    const nm=dlg.querySelector('.name');
+    nm.textContent = l.w? (l.n||C[l.w].name) : '旁白'; nm.classList.toggle('nar',!l.w);
+    lineStart=performance.now(); typeTo(0);
+    if(!VIDEO){ startTyping(); speakCur(); scheduleAuto(); }
+  }
+  if(it.type==='card'){
+    dlg.style.visibility='hidden';
+    document.querySelectorAll('.actor').forEach(a=>a.classList.remove('speaking','dim'));
+    const c=sc.card;
+    $('#card').innerHTML=`<div class="scroll" data-local><h2><span class="badge">📜 歷史小卡</span>${c.t}</h2><ul>${c.items.map((x,k)=>`<li style="animation-delay:${.4+k*.5}s">${x}</li>`).join('')}</ul>${VIDEO?'':'<button class="btn" id="cardNext">繼續 ▶</button>'}</div>`;
+    $('#card').classList.add('show');
+    $('#card').querySelectorAll('li').forEach(e=>e.setAttribute('data-local',''));
+    if(!VIDEO){$('#cardNext').onclick=e=>{e.stopPropagation();next();}; speak(c.t+'。'+c.items.map(plain).join('。')); scheduleAuto();}
+  }
+  if(it.type==='quiz'||it.type==='reveal'){
+    dlg.style.visibility='hidden';
+    const q=sc.quiz, rev=it.type==='reveal';
+    $('#quiz').innerHTML=`<div class="scroll" ${rev?'':'data-local'}><h2><span class="badge">❓ 隨堂小測驗</span></h2><div class="q">${q.q}</div>
+      <div class="opts">${q.o.map((o,k)=>`<button class="opt ${rev?(k===q.a?'right':'fade'):''}" data-k="${k}">${'ABCD'[k]}. ${o}</button>`).join('')}</div>
+      ${rev?`<div class="explain" data-local>✅ 答案是 ${'ABCD'[q.a]}！${q.e}</div>`:(VIDEO?'<div class="think">想一想，答案是哪一個？</div>':'')}<div id="qfoot"></div></div>`;
+    $('#quiz').classList.add('show');
+    if(rev){const r=$('#quiz .opt.right'); r.setAttribute('data-local','');}
+    if(!VIDEO){
+      speak(q.q+'。'+q.o.map((o,k)=>'ABCD'[k]+'，'+o).join('。'));
+      $('#quiz').querySelectorAll('.opt').forEach(b=>b.onclick=e=>{
+        e.stopPropagation(); if($('#quiz').dataset.done==='1') return;
+        $('#quiz').dataset.done='1'; const k=+b.dataset.k; answered++;
+        $('#quiz').querySelectorAll('.opt').forEach(x=>{const kk=+x.dataset.k; if(kk===q.a)x.classList.add('right'); else if(kk===k)x.classList.add('wrong'); else x.classList.add('fade');});
+        const ok=k===q.a; if(ok){score++;ding(true);}else ding(false);
+        $('#qfoot').innerHTML=`<div class="explain">${ok?'🎉 答對了！':'😅 差一點！答案是 '+'ABCD'[q.a]+'。'}${q.e}</div><button class="btn" id="qNext">繼續 ▶</button>`;
+        speak((ok?'答對了！':'差一點！')+q.e);
+        $('#qNext').onclick=ev=>{ev.stopPropagation();next();};
+      });
+      $('#quiz').dataset.done='0';
+    }
+  }
+  if(it.type==='recap'){
+    dlg.style.visibility='hidden'; setBg('room2'); setCast([['xiaoan',0],['yin',4]]);
+    document.querySelectorAll('.actor').forEach(a=>a.classList.remove('speaking','dim'));
+    const g=[
+      ['前言','10～12世紀，多民族多國家並立'],['五代與遼','契丹耶律阿保機建國；耶律德光取得燕雲十六州'],['北宋特質','趙匡胤陳橋兵變、杯酒釋兵權；文人政治'],
+      ['結語','經濟強、武力弱；岳飛為何不受支持？'],null,['宋的鄰國','遼、西夏、高麗，後有金'],
+      ['靖康之禍','1127汴京陷落，北宋亡；南宋定都臨安'],['聯金滅遼','徽宗聯金滅遼，歲幣改給金，暴露弱點'],['澶淵之盟','1004兄弟之邦、歲幣銀絹、百年和平'],
+    ];
+    $('#recap').innerHTML=`<div class="scroll" style="width:1000px;padding:24px 34px" data-local><h2><span class="badge">🧠 總複習</span>宋遼金九宮格</h2>
+      <div class="grid9">${g.map((c,k)=>c?`<div class="cell" data-local style="animation-delay:${.3+k*.25}s"><h4>${c[0]}</h4>${c[1]}</div>`:`<div class="cell mid" data-local>宋遼金</div>`).join('')}</div>
+      <div class="tl"><div>960<br>北宋建立</div><div>1004<br>澶淵之盟</div><div>1115<br>金建國</div><div>1125<br>遼亡</div><div>1127<br>靖康之禍</div><div>南宋<br>南北對峙</div></div>
+      ${VIDEO?'':`<div style="text-align:center"><span style="font-size:22px;font-weight:800">測驗成績：${score} / ${answered}　</span><button class="btn" id="again">↺ 再看一次</button></div>`}</div>`;
+    $('#recap').classList.add('show');
+    if(!VIDEO) $('#again').onclick=e=>{e.stopPropagation();score=0;answered=0;curBg=null;curCast='';show(0);};
+  }
+}
+
+/* typing */
+function typeTo(n){
+  const it=TL[cur]; if(!it||it.type!=='line') return;
+  const html=S[it.si].lines[it.li].t;
+  // reveal n visible chars while preserving tags
+  let out='',cnt=0,i=0;
+  while(i<html.length && cnt<n){ if(html[i]==='<'){const j=html.indexOf('>',i);out+=html.slice(i,j+1);i=j+1;} else {out+=html[i];i++;cnt++;} }
+  // close open em
+  const opens=(out.match(/<em>/g)||[]).length-(out.match(/<\/em>/g)||[]).length; if(opens>0) out+='</em>';
+  $('#dialog .text').innerHTML=out;
+  $('#dialog .next').style.visibility = cnt>=plain(html).length?'visible':'hidden';
+  return cnt>=plain(html).length;
+}
+const CPS=22;
+function startTyping(){
+  cancelAnimationFrame(typing);
+  const step=()=>{const done=typeTo(Math.floor((performance.now()-lineStart)/1000*CPS)); if(!done) typing=requestAnimationFrame(step);};
+  step();
+}
+function lineDone(){const it=TL[cur]; return it.type!=='line' || typeTo(1e9);}
+
+let autoTimer=null;
+function scheduleAuto(){
+  clearTimeout(autoTimer); if(!auto || VIDEO) return;
+  const it=TL[cur]; if(it.type==='quiz'||it.type==='recap') return;
+  if(tts && it.type!=='title') return; // tts end will advance
+  autoTimer=setTimeout(next, durOf(it)*1000);
+}
+function next(){ if(cur<TL.length-1) show(cur+1); }
+stage.addEventListener('click',()=>{
+  if(VIDEO||cur<0) return; const it=TL[cur];
+  if(it.type==='line'){ const done=(performance.now()-lineStart)/1000*CPS >= plain(S[it.si].lines[it.li].t).length; if(!done){lineStart=-1e9;typeTo(1e9);return;} next(); }
+  else if(it.type==='title') next();
+});
+addEventListener('keydown',e=>{ if(e.code==='Space'||e.code==='ArrowRight'||e.code==='Enter'){ e.preventDefault(); const it=TL[cur]; if(it && (it.type==='line'||it.type==='title')) stage.click(); else if(it && it.type==='card') next(); }});
+
+/* TTS */
+let voice=null;
+function pickVoice(){const vs=speechSynthesis.getVoices(); voice=vs.find(v=>/zh[-_]TW/i.test(v.lang))||vs.find(v=>/zh/i.test(v.lang))||null;}
+if('speechSynthesis' in window){pickVoice(); speechSynthesis.onvoiceschanged=pickVoice;}
+function speak(text,onend){
+  if(!tts||VIDEO||!('speechSynthesis' in window)) return;
+  speechSynthesis.cancel();
+  const u=new SpeechSynthesisUtterance(text.replace(/zzz|呼……/g,'').replace(/[「」〈〉]/g,'')); u.lang='zh-TW'; if(voice)u.voice=voice; u.rate=1.05;
+  u.onend=()=>{onend&&onend();}; speechSynthesis.speak(u);
+}
+function speakCur(){
+  const it=TL[cur]; if(!it||it.type!=='line') return;
+  const t=plain(S[it.si].lines[it.li].t);
+  speak(t,()=>{ if(auto && TL[cur]===it) autoTimer=setTimeout(next,600); });
+}
+
+/* Web Audio 背景音樂 & 音效 */
+let actx=null, musicTimer=null;
+function ac(){ if(!actx) actx=new (window.AudioContext||window.webkitAudioContext)(); return actx; }
+function pluck(f,t,vol=.12,len=1.6){const a=ac();const o=a.createOscillator(),o2=a.createOscillator(),g=a.createGain();o.type='triangle';o2.type='sine';o.frequency.value=f;o2.frequency.value=f*2;g.gain.setValueAtTime(0,t);g.gain.linearRampToValueAtTime(vol,t+.01);g.gain.exponentialRampToValueAtTime(.0001,t+len);o.connect(g);o2.connect(g);g.connect(a.destination);o.start(t);o2.start(t);o.stop(t+len);o2.stop(t+len);}
+const PENTA=[293.66,329.63,369.99,440,493.88,587.33,659.25,739.99];
+function startMusic(){ const a=ac(); a.resume(); let n=0; const tick=()=>{ const t=a.currentTime+.05; const seq=[0,2,4,5,4,2,3,1, 0,2,4,7,5,4,2,0]; const k=seq[n%16]; pluck(PENTA[k],t,.07); if(n%4===0) pluck(PENTA[0]/2,t,.05,2.4); n++; }; tick(); musicTimer=setInterval(tick,520); }
+function stopMusic(){ clearInterval(musicTimer); }
+function ding(ok){ try{const a=ac();a.resume();const t=a.currentTime; if(ok){pluck(659.25,t,.2,.6);pluck(987.77,t+.12,.2,.8);} else {pluck(220,t,.18,.5);pluck(196,t+.15,.18,.6);} }catch(e){} }
+
+/* 開始畫面 */
+$('#start').innerHTML=`<div class="scroll"><h1><small>國中歷史互動動畫故事</small>銀兩君的時空帳本</h1>
+  <p>跟著會說話的歲幣「銀兩君」，穿越回<b>宋、遼、金</b>多民族多國家的時代！<br>點畫面或按空白鍵繼續，每一站結束都有歷史小卡和隨堂小測驗。</p>
+  <button class="btn" id="go" style="font-size:30px;padding:10px 40px">開始冒險 ▶</button>
+  <p class="credit">內容依據：「不消失的歷史課」H3-012〈多民族多國家的宋遼金〉課程重點整理改編</p></div>`;
+if(!VIDEO){
+  setBg('room');
+  $('#go').onclick=e=>{e.stopPropagation(); try{ac().resume();}catch(_){} show(0);};
+}
+
+/* ====== 影片錄製用 API ====== */
+window.__TL=()=>TL.map(it=>({type:it.type,si:it.si,dur:durOf(it)}));
+window.__show=i=>{ show(i); };
+window.__tick=(tItem,tScene)=>{
+  const it=TL[cur];
+  if(it.type==='line') typeTo(Math.floor(Math.max(0,tItem-0.15)*CPS));
+  document.getAnimations().forEach(a=>{
+    a.pause();
+    const el=a.effect&&a.effect.target;
+    const local= el && el.closest && el.closest('[data-local]');
+    a.currentTime=(local? tItem : tScene)*1000;
+  });
+};
+</script>
+</body>
+</html>
